@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Latino Music in California</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/*
+VOICE: an energetic but precise industry report, newspaper graphics desk standard.
+IDEA: a concert tour program / setlist: the market as headliner, sections as the running order.
+PICTURE: hero bar chart of US Latin revenue 2015 to 2025, the "stage" of the page.
+COLOUR and TYPE: rosa mexicano field, white ground, ink; chart slots blue/orange/aqua; Archivo + Inter.
+LAYOUT: hero band, sticky section nav, collapsible sections each led by its finding and a chart.
+*/
+:root{color-scheme:light dark;
+--bg:light-dark(#ffffff,#141215);--ink:light-dark(#17141a,#f1edf2);--muted:light-dark(#5d5763,#a9a2ad);
+--line:light-dark(#e6e1e8,#2e2a31);--card:light-dark(#faf7fa,#1c191e);
+--rosa:light-dark(#c8185f,#e2397c);--rosa-ink:#ffffff;
+--s1:light-dark(#257de0,#338ced);--s2:light-dark(#f47230,#e76624);--s3:light-dark(#00b894,#00a888);--s4:light-dark(#6a4ce2,#9887ef);
+--track:light-dark(#efeaf0,#29252c);--up:light-dark(#008a17,#0aac23);--down:light-dark(#c62828,#eb6263)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Inter,system-ui,sans-serif;overflow-x:clip}
+h1,h2,h3,.big{font-family:Archivo,Inter,sans-serif;text-wrap:balance}
+a{color:var(--s1)}
+.band{padding:clamp(28px,4vw,56px) max(5vw,16px)}
+.wrap{max-width:1240px;margin:0 auto}
+header.band{background:var(--rosa);color:var(--rosa-ink)}
+header h1{font-size:clamp(32px,5vw,50px);line-height:1.05;margin:0 0 12px;font-weight:800}
+header p{max-width:62ch;margin:0 0 6px;opacity:.95}
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:clamp(20px,4vw,48px);align-items:center}
+.herochart{background:rgba(255,255,255,.12);border-radius:14px;padding:20px}
+.hbars{display:flex;align-items:flex-end;gap:14px;height:220px}
+.hbar{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+.hbar i{display:block;width:100%;background:#fff;border-radius:4px 4px 0 0}
+.hbar b{font:700 18px Archivo,sans-serif;margin-bottom:6px;white-space:nowrap}
+.hbar span{font-size:13px;margin-top:6px;opacity:.9}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:22px}
+.kpi{border-top:2px solid rgba(255,255,255,.55);padding-top:8px}
+.kpi .big{font-size:clamp(24px,3vw,32px);font-weight:800;line-height:1.1}
+.kpi small{display:block;font-size:13px;opacity:.9}
+nav.bar{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+nav.bar .wrap{display:flex;gap:8px;align-items:center;padding:8px max(5vw,16px);overflow-x:auto}
+nav.bar a{flex:none;font-size:14px;color:var(--ink);text-decoration:none;padding:10px 10px;border-radius:8px;white-space:nowrap}
+nav.bar a:hover{background:var(--track)}
+.ctl{flex:none;font:600 14px Inter,sans-serif;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:0 14px;min-height:40px;cursor:pointer}
+.ctl:focus-visible,summary:focus-visible,nav a:focus-visible{outline:3px solid var(--s1);outline-offset:2px}
+main{max-width:1240px;margin:0 auto;padding:12px max(5vw,16px) 60px}
+details.sec{border-bottom:1px solid var(--line)}
+details.sec>summary{list-style:none;cursor:pointer;display:flex;gap:14px;align-items:baseline;padding:22px 0;min-height:44px}
+details.sec>summary::-webkit-details-marker{display:none}
+summary h2{font-size:clamp(22px,2.6vw,30px);margin:0;line-height:1.15}
+summary .lead{color:var(--muted);font-size:15px;flex:1}
+summary .chev{margin-left:auto;flex:none;width:28px;height:28px;border-radius:50%;background:var(--track);display:grid;place-items:center;transition:transform .2s}
+details[open]>summary .chev{transform:rotate(90deg)}
+@media(prefers-reduced-motion:reduce){summary .chev{transition:none}}
+.sumtext{display:flex;flex-direction:column;gap:4px;flex:1}
+.body{padding:0 0 30px}
+h3{font-size:19px;margin:28px 0 10px}
+p,li{max-width:75ch}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:24px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px}
+.card h4{font:700 16px Archivo,sans-serif;margin:0 0 4px}
+.card .note{font-size:13px;color:var(--muted);margin:8px 0 0}
+.rows{display:grid;gap:9px;margin-top:12px}
+.row{display:grid;grid-template-columns:minmax(0,9.5em) minmax(0,1fr);gap:10px;align-items:center;font-size:14px}
+.row .lab{line-height:1.25}
+.trk{background:var(--track);border-radius:4px;height:26px;position:relative}
+.fill{height:100%;border-radius:0 4px 4px 0;min-width:3px}
+.val{position:absolute;top:50%;transform:translateY(-50%);font-weight:600;font-size:13px;white-space:nowrap;padding:0 8px}
+.stackbar{display:flex;height:34px;border-radius:4px;overflow:hidden;gap:2px;margin-top:12px}
+.stackbar div{height:100%}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;margin-top:10px;color:var(--muted)}
+.legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;background:var(--c);vertical-align:-1px}
+.db{display:grid;grid-template-columns:minmax(0,10em) minmax(0,1fr);gap:10px;align-items:center;font-size:14px;margin-top:10px}
+.dbt{position:relative;height:26px;border-bottom:1px solid var(--line)}
+.dbt .ln{position:absolute;top:12px;height:3px;border-radius:2px}
+.dbt .dot{position:absolute;top:7px;width:13px;height:13px;border-radius:50%;margin-left:-6px;border:2px solid var(--card)}
+.dbt .t{position:absolute;top:-2px;font-size:12px;font-weight:600;white-space:nowrap;transform:translateX(-50%);top:-14px}
+.mom{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:12px}
+.mom .col{border-radius:10px;padding:12px;background:var(--card);border:1px solid var(--line)}
+.mom .col h4{margin:0 0 8px;font:700 15px Archivo,sans-serif}
+.chip{display:inline-block;font-size:13px;padding:4px 9px;border-radius:999px;margin:0 6px 6px 0;background:var(--track)}
+table{width:100%;border-collapse:collapse;font-size:14px;margin-top:10px}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:600;color:var(--muted);font-size:13px}
+td.n{text-align:right;white-space:nowrap}
+.tag{font-size:12px;font-weight:600;padding:2px 8px;border-radius:999px;white-space:nowrap}
+.tag.x{background:color-mix(in srgb,var(--down) 18%,transparent);color:var(--down)}
+.tag.ok{background:color-mix(in srgb,var(--up) 18%,transparent);color:var(--up)}
+.tag.q{background:var(--track);color:var(--muted)}
+.callout{border-left:4px solid var(--rosa);background:var(--card);padding:12px 16px;border-radius:0 10px 10px 0;margin:16px 0}
+ol li,ul li{margin-bottom:6px}
+.sources{columns:2 320px;font-size:13px}
+.sources li{break-inside:avoid}
+.tabs{display:flex;gap:6px;padding:12px max(5vw,16px) 0;max-width:1240px;margin:0 auto}
+.tab{font:700 15px Archivo,Inter,sans-serif;border:1px solid var(--line);border-bottom:0;background:var(--card);color:var(--muted);border-radius:10px 10px 0 0;padding:0 18px;min-height:44px;cursor:pointer}
+.tab[aria-selected=true]{background:var(--rosa);color:#fff;border-color:var(--rosa)}
+.tab:focus-visible{outline:3px solid var(--s1);outline-offset:2px}
+.flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:16px 0}
+.step{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;position:relative}
+.step b{display:block;font:800 18px Archivo,sans-serif}
+.step small{color:var(--muted);font-size:13px}
+.step::after{content:"→";position:absolute;right:-12px;top:50%;transform:translateY(-50%);color:var(--rosa);font-weight:800}
+.step:last-child::after{content:none}
+.phases{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:3px;margin:14px 0 6px}
+.phases div{padding:8px;font-size:12px;line-height:1.3;color:#fff;border-radius:4px}
+.checks label{display:flex;gap:10px;align-items:center;min-height:40px;font-size:15px}
+.checks input{width:20px;height:20px;accent-color:var(--rosa)}
+@media(max-width:700px){.flow{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.step:nth-child(2)::after{content:none}.phases{grid-template-columns:minmax(0,1fr)}}
+footer{font-size:13px;color:var(--muted);text-align:center;padding:20px}
+pre,.scroll{overflow-x:auto}html{scroll-padding-top:72px}
+@media(max-width:820px){.hero{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:600px){table{font-size:13px}.stack thead{display:none}.stack tr{display:grid;padding-block:10px;border-bottom:1px solid var(--line)}.stack td{display:flow-root;border:0;padding:3px 0;padding-inline-start:8em;text-align:start}.stack td::before{content:attr(data-l);float:inline-start;width:7.5em;margin-inline-start:-8em;white-space:normal;color:var(--muted);font-size:12px}.stack td:empty{display:none}
+.row{grid-template-columns:minmax(0,7em) minmax(0,1fr)}.db{grid-template-columns:minmax(0,7em) minmax(0,1fr)}.mom{grid-template-columns:minmax(0,1fr)}summary .lead{display:none}.hbar b{font-size:15px}}
+</style>
+<script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
+</head>
+<body>
+<header class="band"><div class="wrap hero">
+ <div>
+  <h1>California's Latino music market keeps growing, but big festivals are struggling</h1>
+  <p>Stadium shows by California-raised stars are breaking records, while three major California Latin festivals have been canceled since late 2024. Revenue and fans are concentrating in streaming, a few proven headliners, and community events that feel safe.</p>
+  <p style="font-size:14px;opacity:.85">Research report, as of late November 2026.</p>
+  <div class="kpis">
+   <div class="kpi"><div class="big">8.8%</div><small>of US recorded music revenue is Latin (2025, record)</small></div>
+   <div class="kpi"><div class="big">9.4%</div><small>of US streams were in Spanish (H1 2026, record)</small></div>
+   <div class="kpi"><div class="big">15.8M</div><small>Hispanic Californians, 24% of all US Hispanics</small></div>
+  </div>
+ </div>
+ <figure class="herochart" style="margin:0">
+  <div style="font:700 16px Archivo,sans-serif;margin-bottom:12px">US Latin recorded-music revenue, about 7× in ten years</div>
+  <div class="hbars" id="hero"></div>
+  <figcaption style="font-size:12px;opacity:.85;margin-top:10px">2015 per Variety citing RIAA. 2024 is restated wholesale; 2025 is the first full year on RIAA's wholesale method.</figcaption>
+ </figure>
+</div></header>
+
+<div class="tabs" role="tablist"><button class="tab" role="tab" id="t-report" aria-selected="true">Industry report</button><button class="tab" role="tab" id="t-growth" aria-selected="false">Growth strategies</button></div>
+<div id="p-report">
+<nav class="bar" aria-label="Sections"><div class="wrap">
+ <button class="ctl" id="openAll">Expand all</button><button class="ctl" id="closeAll">Collapse all</button>
+ <a href="#tldr">Summary</a><a href="#market">Market</a><a href="#live">Live and touring</a><a href="#festivals">Festivals</a><a href="#radio">Radio</a><a href="#regions">Regions</a><a href="#genres">Genres</a><a href="#artists">Artists</a><a href="#trends">Trends</a><a href="#outlook">Outlook</a><a href="#recs">Recommendations</a><a href="#caveats">Caveats</a><a href="#sources">Sources</a>
+</div></nav>
+
+<main>
+
+<details class="sec" id="tldr" open><summary><div class="sumtext"><h2>Summary and key findings</h2><span class="lead">The market is large and growing; the risk is political, not demand.</span></div><span class="chev">›</span></summary><div class="body">
+ <ul>
+  <li><b>The market is large and still growing, and California is its center.</b> US Latin recorded-music revenue reached a record $1.009 billion wholesale in 2025, 8.8% of the US total (RIAA). Luminate says 9.4% of all US streams in H1 2026 were in Spanish. California is 40.2% Hispanic, about 15.8 million people and roughly a quarter of all US Hispanics.</li>
+  <li><b>Música mexicana made in California defines the sound.</b> Home-grown acts now play stadiums: Fuerza Regida (San Bernardino), Eslabon Armado (Patterson) and Iván Cornejo (Riverside). Bilingual and English-language Latino acts are rising too: Chicano soul (Thee Sinseers, Thee Sacred Souls), Latino indie/pop and cumbia. Karol G became Coachella's first Latina headliner in 2026.</li>
+  <li><b>The biggest risk is political.</b> Visa revocations, Mexican state bans on narcocorridos and the 2025–26 ICE enforcement climate have canceled shows and festivals and lowered attendance at bailes. The best near-term opportunities are mid-size venues, artist-owned indie labels, bilingual content and well-secured local events.</li>
+ </ul>
+ <div class="grid2">
+  <div class="card"><h4>California's share of US Hispanics</h4><p class="note" style="margin-top:0">15.78M Californians are Hispanic (40.2% of the state).</p><div class="stackbar" id="popbar"></div><div class="legend"><span style="--c:var(--rosa)">California 24.4%</span><span style="--c:var(--track)">Rest of US 75.6%</span></div><p class="note">ACS 2020–24 5-year estimates.</p></div>
+  <div class="card"><h4>California Latino GDP, $ trillions</h4><div class="rows" id="gdp"></div><p class="note">Cal Lutheran/UCLA 2025 (2023 actual); Latino Donor Collaborative forecast for 2030, a projection.</p></div>
+ </div>
+ <h3>Key indicators</h3>
+ <div class="scroll"><table class="stack"><thead><tr><th>Indicator</th><th>Figure</th><th>Date / source</th><th>Scope</th></tr></thead><tbody id="kf"></tbody></table></div>
+ <div class="callout"><b>California estimate:</b> no one publishes a California-only Latin music revenue number. With about 24% of US Hispanics, and 83% of US regional Mexican listeners being Latino (Luminate 2023), a rough working estimate is that California is a fifth to a quarter of US Latin consumption, about <b>$200–250M a year wholesale</b>. This is the researcher's estimate, not a published figure; treat it as order of magnitude only.</div>
+</div></details>
+
+<details class="sec" id="market"><summary><div class="sumtext"><h2>Recorded music</h2><span class="lead">Ten straight years of faster growth than the overall market; 98% streaming.</span></div><span class="chev">›</span></summary><div class="body">
+ <div class="grid2">
+  <div class="card"><h4>Year-over-year growth: Latin vs. all US music</h4><div id="growth"></div><div class="legend"><span style="--c:var(--rosa)">Latin</span><span style="--c:var(--s1)">All US recorded music</span></div><p class="note">RIAA wholesale. Full-year 2025 US total: $11.535B.</p></div>
+  <div class="card"><h4>Where 2025 Latin revenue came from ($1.009B)</h4><div class="stackbar" id="mix"></div><div class="legend" id="mixleg"></div><p class="note">Paid subscriptions $557.5M (+9.8%) = 55.2%. Streaming total $991.9M = 98.2%. Physical $7.8M (−28.1%), including Latin vinyl $7.4M (−18.7%). "Other" is the remainder (sync and other).</p></div>
+  <div class="card"><h4>Language share of US streams, H1 2026</h4><div class="stackbar" id="lang"></div><div class="legend"><span style="--c:var(--s2)">Spanish 9.4%</span><span style="--c:var(--s1)">English 87.1%</span><span style="--c:var(--track)">Other 3.5%</span></div><p class="note">Luminate Midyear 2026 (Jul 15, 2026). About 1 in 10 US streams is in Spanish.</p></div>
+  <div class="card"><h4>Global Latin streams, H1, billions</h4><div class="rows" id="glob"></div><p class="note">Luminate. Also: 54% of US listeners are casual monthly Latin listeners (Q1 2026 peak), and Latin America was the fastest-growing region worldwide in 2025 (+17.1%, IFPI).</p></div>
+ </div>
+ <ul style="margin-top:20px">
+  <li>Latin revenue grew 4.2% in 2025 vs. 3.1% for the US market. In H1 2025 it grew 5.9% vs. 0.9%.</li>
+  <li>RIAA switched from retail to wholesale reporting. The widely cited "$1.42B" for 2024 was retail and is not comparable with $1.009B.</li>
+  <li>Streaming is 98.2% of Latin revenue vs. 82% for the whole US market. In 2015, Latin revenue was $140M with streaming about 78%.</li>
+  <li>Luminate named Tito Double P, Peso Pluma, Junior H and Gael Valenzuela among the drivers of Spanish-language growth; Bad Bunny led Latin overall.</li>
+ </ul>
+</div></details>
+
+<details class="sec" id="live"><summary><div class="sumtext"><h2>Live music and touring</h2><span class="lead">Superstar tours are bigger than ever; Fuerza Regida is California's 2026 story.</span></div><span class="chev">›</span></summary><div class="body">
+ <div class="grid2">
+  <div class="card"><h4>Latin tour grosses, $ millions</h4><div class="rows" id="tours"></div><p class="note">Billboard Boxscore as of Oct 2026. Windows differ: Fuerza Regida = first 8 reported stadium dates; Peso Pluma = Oct 2025–Mar 2026 (17 shows). 15 Latin tours have passed $100M since 2022.</p></div>
+  <div class="card"><h4>Fuerza Regida in California, tickets sold</h4><div class="rows" id="fr"></div><p class="note">Pollstar. Dodger Stadium grossed $9,237,664 (sold out), about $186 per ticket on average. First 8 stadium dates: $47.2M, 330,228 tickets.</p></div>
+ </div>
+ <h3>Big California moments</h3>
+ <ul>
+  <li><b>Bad Bunny's only 2026 US performance was in California:</b> Super Bowl LX halftime, Levi's Stadium, Santa Clara, Feb 8. He had left the US off his world tour, citing fears of ICE raids. Roc Nation reported 4.157 billion views in 24 hours (company figure, not a Nielsen rating).</li>
+  <li><b>Shakira</b> played Intuit Dome in Inglewood on June 13, 2026 on the highest-grossing Latin tour ever ($565.5M, 124 shows).</li>
+  <li><b>Fuerza Regida's</b> <i>This Is Our Dream</i>, their first US stadium tour, opened at Petco Park (Jun 18), then Oracle Park (Jun 20) and Dodger Stadium (Jul 18). A fall arena leg added Bakersfield's Dignity Health Arena (Oct 24) and Fresno's Save Mart Center (Oct 28), showing deep demand in the Central Valley.</li>
+ </ul>
+</div></details>
+
+<details class="sec" id="festivals"><summary><div class="sumtext"><h2>Festivals: a hard stretch</h2><span class="lead">Three canceled; single-artist stadium shows kept selling out.</span></div><span class="chev">›</span></summary><div class="body">
+ <div class="grid2">
+  <div class="card"><h4>What a ticket cost, $ per person</h4><div class="rows" id="price"></div><p class="note">GA prices as reported. Fuerza Regida figure is the average across all tickets at Dodger Stadium (gross ÷ tickets).</p></div>
+  <div class="card"><h4>Festival scorecard</h4><div class="rows" id="fscore"></div><p class="note">California Latin festivals tracked in the research, late 2024 to 2026.</p></div>
+ </div>
+ <div class="scroll"><table class="stack"><thead><tr><th>Festival</th><th>Location</th><th>Status</th><th>Notes</th></tr></thead><tbody id="fest"></tbody></table></div>
+ <div class="callout">Large Latin festivals in California are under strain. Likely causes are high ticket prices, visa risk for Mexico-based headliners, and fans' fear of large Latino gatherings; organizers never confirmed which mattered. Single-artist stadium shows by US-based acts, who carry no visa risk, kept selling out. A US-based headliner and a moderate price are now strategic advantages.</div>
+</div></details>
+
+<details class="sec" id="radio"><summary><div class="sumtext"><h2>Radio in California</h2><span class="lead">Regional Mexican radio is softening even as the genre grows on streaming.</span></div><span class="chev">›</span></summary><div class="body">
+ <div class="card"><h4>Audience share, earlier reading → latest (Nielsen PPM)</h4><div id="radiodb"></div><div class="legend"><span style="--c:var(--muted)">Earlier</span><span style="--c:var(--up)">Rose</span><span style="--c:var(--down)">Fell</span></div><p class="note">LA: Aug → Oct 2026. KLVE's 4.5 tied for 4th in LA, its best since April 2025. Latino Mix 103.9/98.3 dropped to 0.3 after flipping from a "Recuerdo" format (earlier figure not reported). SF/SJ: "recent months." KLVE holds about 5.2–5.3 in Riverside/San Bernardino.</p></div>
+ <ul style="margin-top:16px">
+  <li>In LA, 10 Spanish-language stations hold about 16% of the radio audience (Oct 2026). The LA metro radio population includes about 4.8M Hispanics out of 11.2M.</li>
+  <li>Radio still reaches large Latino audiences, especially older and commuting listeners. Discovery for under-35s has moved to TikTok, YouTube and Spotify playlists.</li>
+ </ul>
+</div></details>
+
+<details class="sec" id="regions"><summary><div class="sumtext"><h2>Regions of California</h2><span class="lead">LA is the business capital; the Inland Empire and Central Valley make the stars.</span></div><span class="chev">›</span></summary><div class="body">
+ <div class="scroll"><table class="stack"><thead><tr><th>Region</th><th>Dominant genres</th><th>Key venues / events</th><th>Media</th><th>Notable artists and labels</th></tr></thead><tbody id="reg"></tbody></table></div>
+ <h3>Los Angeles / East LA / Inland Empire</h3>
+ <p>LA hosts the stadiums, labels and media, and the most bilingual audience in the country. Its corridos culture is home-grown: a Smithsonian Folklife essay calls urban corridos "the soundtrack to South Central L.A.," made by young artists from Santa Ana, Yuba City and San Bernardino.</p>
+ <ul>
+  <li><b>Rancho Humilde</b> (LA): 80+ acts including Natanael Cano, Junior H, Legado 7, Oscar Maydon and rising star Lencho (nearly 10M monthly Spotify listeners). On Billboard's 2026 Indie Power Players list.</li>
+  <li><b>Street Mob Records</b>: founded by Fuerza Regida frontman JOP; 10 signed artists plus publishing, management and touring arms; bought a 35,000 sq ft facility in Rancho Cucamonga.</li>
+  <li><b>Del Records</b> and swap-meet and arena promoters run a dense circuit of bailes.</li>
+  <li><b>Chicano soul revival</b>: Thee Sinseers (nine-piece, East LA, formed 2019) released <i>Love Stories</i> on Colemine Records (Sept 18, 2026), touring the Wiltern (Oct 17), La Jolla (Oct 21), the Fillmore SF (Nov 6) and Corona Capital in Mexico City.</li>
+ </ul>
+ <h3>San Diego / Tijuana</h3>
+ <p>A stadium market (Fuerza Regida opened its tour there to 37,770 fans) and home of Thee Sacred Souls (Daptone's Penrose Records), who headlined Gallagher Square at Petco Park on Aug 28, 2026. Tijuana, home of Grupo Firme and Los Tucanes de Tijuana, is the creative hinterland and the point most exposed to visa disruption.</p>
+ <h3>Bay Area / San Jose / Oakland</h3>
+ <p>Deep norteño roots (Los Tigres del Norte are San Jose-based) and a strong pan-Latin calendar: fall 2026 had Don Omar and Mon Laferte at SAP Center, and Caifanes, Bronco, Álvaro Díaz, Rodrigo y Gabriela and Silvestre Dangond at San Jose Civic. BelicoFest organizers said San Jose "really embrace[s] música mexicana," yet the festival was canceled: strong for single shows, unproven for new festival brands.</p>
+ <h3>Central Valley</h3>
+ <p>The most grassroots, family-oriented market, running on jaripeo-bailes (rodeo plus banda dance). Fresno's Toro Bravo Arena hosted at least four in 2026 (Jun 14, Jun 20, Sept 5, Oct 3), often with kids under 12 free. Norteño nights run at the Rainbow Ballroom and Los Arcos Nightclub. Modesto has Corridos Fest and a salsa/bachata Latin Music & Dance Festival at Mancini Bowl. Fresno's Oaxacan Guelaguetza was themed "Resistance, Culture, Roots, Tradition" in 2025 amid raids. Eslabon Armado (Patterson) played Fresno's Saroyan Theatre on Sept 26, 2026.</p>
+ <h3>Napa, Coachella Valley, Sacramento, Central Coast</h3>
+ <ul>
+  <li><b>Napa:</b> La Onda's cancellation removed Northern California's largest Latin festival. Community leaders worked to keep smaller celebrations going while residents debated whether large Latino gatherings were "risky."</li>
+  <li><b>Coachella Valley:</b> Coachella 2026 leaned pan-Latin and pop: Karol G, Morat, Gigi Perez, Los Hermanos Flores, Cachirula &amp; Loojan, Gordo, 54 Ultra, Los Retros. The farmworker economy sustains regional Mexican events.</li>
+  <li><b>Sacramento and Central Coast:</b> mainly touring and bailes markets, thinly covered in available reporting.</li>
+ </ul>
+</div></details>
+
+<details class="sec" id="genres"><summary><div class="sumtext"><h2>Trending genres and styles</h2><span class="lead">Corridos remain the engine; English and bilingual heritage sounds grow fastest.</span></div><span class="chev">›</span></summary><div class="body">
+ <h3>Momentum board</h3>
+ <div class="mom" id="mom"></div>
+ <div class="scroll"><table class="stack"><thead><tr><th>Genre / style</th><th>Status (late 2026)</th><th>Evidence and notes</th></tr></thead><tbody id="gen"></tbody></table></div>
+ <ul style="margin-top:16px">
+  <li>Corridos remain the commercial engine, but the edge is shifting from glorifying violence toward romantic, introspective and "motivational" themes, partly artistic evolution and partly risk management.</li>
+  <li>The fastest cultural growth among California-born Latinos is in English-language and bilingual heritage sounds (Chicano soul, oldies-inflected R&amp;B, indie). These carry no visa risk and travel well to non-Latino audiences.</li>
+ </ul>
+</div></details>
+
+<details class="sec" id="artists"><summary><div class="sumtext"><h2>Artists to know</h2><span class="lead">Spanish, English and bilingual acts that are California-based, rooted or touring.</span></div><span class="chev">›</span></summary><div class="body">
+ <h3>Música mexicana</h3>
+ <div class="scroll"><table class="stack"><thead><tr><th>Artist</th><th>Origin / CA connection</th><th>Language</th><th>2025–26 California highlights</th></tr></thead><tbody id="a1"></tbody></table></div>
+ <h3>Urbano, pop and pan-Latin</h3>
+ <div class="scroll"><table class="stack"><thead><tr><th>Artist</th><th>Language</th><th>California moment</th></tr></thead><tbody id="a2"></tbody></table></div>
+ <h3>English-language and bilingual</h3>
+ <div class="scroll"><table class="stack"><thead><tr><th>Artist</th><th>Base</th><th>Language</th><th>Genre</th><th>Notes</th></tr></thead><tbody id="a3"></tbody></table></div>
+ <h3>Rising names to watch</h3>
+ <ul>
+  <li><b>Música mexicana:</b> Lencho (Rancho Humilde), Eddy (discovered by Calle 24's Diego Millán), Estevie (opened for Kacey Musgraves in Oakland; on BelicoFest's lineup).</li>
+  <li><b>Cumbia:</b> Tropa Magica.</li>
+  <li><b>Sierreño:</b> Gael Valenzuela, named by Luminate as a growth driver.</li>
+  <li><b>Chicano soul:</b> The Charities, touring with Thee Sinseers.</li>
+ </ul>
+</div></details>
+
+<details class="sec" id="trends"><summary><div class="sumtext"><h2>Current trends</h2><span class="lead">Social discovery, artist-owned labels, and real political pressure.</span></div><span class="chev">›</span></summary><div class="body">
+ <ol>
+  <li><b>TikTok and social-first discovery.</b> Iván Cornejo built his following posting guitar covers to TikTok as a teen. Promoters sell bailes almost entirely through TikTok and Instagram, tagged by area code (#209, #408, #916). Radio's regional Mexican share slips while Spanish streaming hits records.</li>
+  <li><b>Independent, artist-owned labels win.</b> Rancho Humilde and Street Mob pair indie ownership with major distribution (Sony, Cinq, Warner partnerships) and 360-degree touring and merch. Fuerza Regida's <i>111xpantia</i> debuted at No. 2 on the Billboard 200, the biggest debut ever for a regional Mexican album.</li>
+  <li><b>Bilingual crossover and Mexican-American identity.</b> California-born artists present a distinctly Mexican-American identity, and stadium economics favor them because they are US-based.</li>
+  <li><b>Cross-genre collaborations.</b> Fuerza Regida brought out Marshmello and Rey Mysterio. "Ella Baila Sola" (Eslabon Armado with Peso Pluma) was the most-streamed Latin song of 2023 and No. 7 among all US songs that year. Cornejo has worked with The Marías' María Zardoya and Edén Muñoz.</li>
+  <li><b>AI.</b> Luminate's 2026 midyear report flagged a spike in AI-generated tracks reaching meaningful stream counts: more competition for playlist slots and more need for clear human authorship and rights registration.</li>
+  <li><b>Political pressure on corridos.</b>
+   <ul>
+    <li>Los Alegres del Barranco's visas were revoked (Apr 2025) after the band displayed an image of CJNG leader "El Mencho" at a show.</li>
+    <li>Julión Álvarez's visa was revoked (May 2025), weeks after three sold-out SoFi Stadium shows.</li>
+    <li>Grupo Firme's visas went "under administrative review," forcing it out of La Onda 2025.</li>
+    <li>10 of Mexico's 32 states restrict performances glorifying organized crime, including Baja California, Chihuahua, Jalisco and Michoacán. Tijuana imposed the first municipal ban (Nov 2023).</li>
+   </ul></li>
+  <li><b>Immigration enforcement and attendance.</b>
+   <ul>
+    <li>A June 2025 ICE raid at the Santa Fe Springs Swap Meet forced it to postpone a regional Mexican concert (Los Cadetes de Linares and others).</li>
+    <li>East LA's "Rockin' 4th of July" was canceled; Emiliano Aguilar canceled an LA club date in solidarity with immigrants.</li>
+    <li>Promoter Abel DeLuna (Promotores Unidos) told Billboard many fans were afraid to go to bailes and concerts, and several shows were canceled for low ticket sales. Bad Bunny skipped US touring.</li>
+   </ul></li>
+  <li><b>Nostalgia and legacy.</b> The 90s Corridos Tour, Maná, Caifanes, Bronco and Chicano oldies show that multigenerational, family-attended shows stay resilient.</li>
+ </ol>
+ <h3>Political pressure timeline</h3>
+ <div class="scroll"><table><thead><tr><th>Date</th><th>Event</th></tr></thead><tbody id="tl"></tbody></table></div>
+</div></details>
+
+<details class="sec" id="outlook"><summary><div class="sumtext"><h2>Outlook and opportunities (2027–2030)</h2><span class="lead">Mid-single-digit growth; live music keeps polarizing.</span></div><span class="chev">›</span></summary><div class="body">
+ <ul>
+  <li>Recorded revenue will most likely keep growing at mid-single digits, extending RIAA's ten-year streak, mainly from paid subscriptions (+9.8% in 2025).</li>
+  <li>Demographics point the same way: a 40% Hispanic population and Latino GDP forecast to reach $1.4T by 2030 (a projection).</li>
+  <li>Live music will polarize: US-based stadium acts and legacy tours thrive, while new high-priced multi-genre festivals and Mexico-based corridos acts stay at risk as long as visa and enforcement policies remain.</li>
+ </ul>
+ <div class="scroll"><table class="stack"><thead><tr><th>Player</th><th>Opportunity</th></tr></thead><tbody id="opp"></tbody></table></div>
+</div></details>
+
+<details class="sec" id="recs"><summary><div class="sumtext"><h2>Recommendations</h2><span class="lead">Five moves the data supports.</span></div><span class="chev">›</span></summary><div class="body">
+ <ol>
+  <li><b>Invest in US-based artists and bilingual content.</b> Visa-proof, California-raised acts sold stadiums and theaters in 2026 while Mexico-dependent festival bills were canceled.</li>
+  <li><b>Price for families and plan for safety.</b> The festivals that failed charged $218–$435 GA; jaripeo-bailes that let kids in free kept running. Partner with community organizations and communicate security and privacy policies clearly.</li>
+  <li><b>Target the Central Valley and Inland Empire.</b> Arena tours now route through Fresno, Bakersfield and Ontario, and these markets are underserved by media and premium promoters.</li>
+  <li><b>Avoid cartel-glorifying content.</b> It carries real commercial risk (visas, Mexican bans, sponsor reluctance), and audiences are moving toward romantic and introspective themes anyway.</li>
+  <li><b>Use streaming as the main revenue rail.</b> Treat radio as reach for older audiences and physical media as merchandise.</li>
+ </ol>
+</div></details>
+
+<details class="sec" id="caveats"><summary><div class="sumtext"><h2>Caveats</h2><span class="lead">What the data can't tell us.</span></div><span class="chev">›</span></summary><div class="body">
+ <ul>
+  <li><b>No California-only revenue figure exists.</b> RIAA and Luminate publish US-wide data; the ~$200–250M California estimate is a rough population-share proxy.</li>
+  <li><b>Festival cancellations:</b> La Onda, BelicoFest San José and Bésame Mucho organizers gave no official reasons. Links to enforcement or ticket demand come from commentary and community reporting.</li>
+  <li><b>Conflicting listings:</b> one ticketing listing placed Iván Cornejo at Napa Valley Expo on May 31, 2026, but La Onda 2026 was canceled, so it is treated as stale. The Modesto Latin Music &amp; Dance Festival shows two 2026 dates (Sept 26 and Oct 10) on its own sites.</li>
+  <li><b>Thinly sourced:</b> Sacramento, the Central Coast, the Imperial Valley, Latin Christian/worship music and bachata have little reliable 2025–26 California data.</li>
+  <li><b>Company-reported figures</b> (e.g., Roc Nation's 4.157B Super Bowl views) and forecasts (LDC's $1.4T Latino GDP by 2030) are claims and projections, not audited results.</li>
+ </ul>
+</div></details>
+
+<details class="sec" id="sources"><summary><div class="sumtext"><h2>Sources</h2><span class="lead">Pages the research drew on.</span></div><span class="chev">›</span></summary><div class="body">
+ <ul class="sources" id="src"></ul>
+</div></details>
+
+</main>
+</div>
+
+<div id="p-growth" hidden>
+<nav class="bar" aria-label="Growth sections"><div class="wrap">
+ <button class="ctl" id="gOpen">Expand all</button><button class="ctl" id="gClose">Collapse all</button>
+ <a href="#g-trend">Trending strategies</a><a href="#g-artist">Plan 1: Artist</a><a href="#g-church">Plan 2: Christian channel</a><a href="#g-brand">Plan 3: Content brand</a><a href="#g-src">Sources</a>
+</div></nav>
+<main>
+<details class="sec" id="g-trend" open><summary><div class="sumtext"><h2>Trending strategies</h2><span class="lead">Discover on TikTok, connect on Instagram, own the relationship, own the business.</span></div><span class="chev">›</span></summary><div class="body">
+ <p>The winning 2026 pattern: get discovered on TikTok, win people over on Instagram, then move your best fans into channels you own and earn from them directly. Latino music leaders add one more step: own the business side yourself.</p>
+ <div class="flow">
+  <div class="step"><b>Discover</b><small>TikTok short clips: trends, covers, snippets</small></div>
+  <div class="step"><b>Connect</b><small>Instagram Stories, Reels, DMs, lives</small></div>
+  <div class="step"><b>Own</b><small>Email list, broadcast channel, Discord</small></div>
+  <div class="step"><b>Earn</b><small>Tickets, merch, direct support, services</small></div>
+ </div>
+ <div class="grid2">
+  <div class="card"><h4>What each content type does best</h4><div class="rows" id="ctype"></div><p class="note">From a 2026 TikTok case study (LAB University): trend content wins reach and new followers, music content wins engagement, identity content gets watched to the end most. Ranking only; the study's raw numbers aren't shown here.</p></div>
+  <div class="card"><h4>The superfan math</h4><div class="big" style="font-size:40px;font-weight:800;color:var(--rosa)">100 fans ≈ $10K+/yr</div><p style="margin:6px 0 0">About 100 committed superfans buying tickets and merch and giving direct support can be worth $10K+ a year (OnesToWatch 2026 guide). That's roughly $100 per fan per year, a couple of tickets and a shirt.</p></div>
+ </div>
+ <h3>The Latino music playbook</h3>
+ <div class="scroll"><table class="stack"><thead><tr><th>Strategy</th><th>Example</th><th>Why it works</th></tr></thead><tbody id="play"></tbody></table></div>
+ <h3>General 2026 indie growth tactics</h3>
+ <ul>
+  <li><b>TikTok for discovery, Instagram for connection.</b> TikTok is where people find you; Instagram is where they decide to stay.</li>
+  <li><b>Superfans over follower counts.</b> A small, committed fanbase pays the bills.</li>
+  <li><b>Consistency over one viral hit.</b> Steady posting and engagement beat chasing one spike.</li>
+  <li><b>Mix three content types:</b> trend, music and identity (see chart above).</li>
+  <li><b>Reply personally.</b> Fans remember the artist who answered them when the account was small.</li>
+  <li><b>Own the relationship.</b> An email list or broadcast channel keeps fans reachable if an algorithm changes.</li>
+  <li><b>Use unreleased demos as a hook.</b> Early access to a demo in exchange for an email or follow.</li>
+  <li><b>Combine organic and small paid boosts.</b> Put a little ad money behind posts already doing well.</li>
+ </ul>
+</div></details>
+
+<details class="sec" id="g-artist"><summary><div class="sumtext"><h2>Plan 1: Independent Latino artist</h2><span class="lead">From a few listeners to a paying local fanbase in 12 months.</span></div><span class="chev">›</span></summary><div class="body">
+ <p>Bilingual releases and romantic or motivational themes keep the widest audience and the lowest risk.</p>
+ <div class="phases" id="ph1"></div>
+ <div class="scroll"><table class="stack"><thead><tr><th>Phase</th><th>Focus</th><th>Actions</th><th>Signs it's working</th></tr></thead><tbody id="p1"></tbody></table></div>
+ <h3>Checklist</h3><div class="checks" data-k="c1"></div>
+</div></details>
+
+<details class="sec" id="g-church"><summary><div class="sumtext"><h2>Plan 2: Christian / worship music channel</h2><span class="lead">Steady but under-covered: the opening is to cover it well.</span></div><span class="chev">›</span></summary><div class="body">
+ <p>Grow a Spanish-language or bilingual worship channel into a trusted community. The research found música cristiana is steady but poorly documented in California, so few people are covering it well.</p>
+ <div class="phases" id="ph2"></div>
+ <div class="scroll"><table class="stack"><thead><tr><th>Phase</th><th>Focus</th><th>Actions</th><th>Signs it's working</th></tr></thead><tbody id="p2"></tbody></table></div>
+ <h3>Checklist</h3><div class="checks" data-k="c2"></div>
+</div></details>
+
+<details class="sec" id="g-brand"><summary><div class="sumtext"><h2>Plan 3: Bilingual music content brand</h2><span class="lead">Be the go-to Spanish/English voice for one part of the scene.</span></div><span class="chev">›</span></summary><div class="body">
+ <p>Local baile and jaripeo coverage, the Central Valley and música cristiana are all thinly covered, so picking one gives you a clear lane.</p>
+ <div class="phases" id="ph3"></div>
+ <div class="scroll"><table class="stack"><thead><tr><th>Phase</th><th>Focus</th><th>Actions</th><th>Signs it's working</th></tr></thead><tbody id="p3"></tbody></table></div>
+ <div class="callout"><b>Your head start:</b> you already run YouTube, Instagram, video production and OpusClip for two churches. The same skills can become paid artist services: release rollouts, clip editing and social management for local musicians.</div>
+ <h3>Checklist</h3><div class="checks" data-k="c3"></div>
+</div></details>
+
+<details class="sec" id="g-src"><summary><div class="sumtext"><h2>Sources</h2><span class="lead">Where the strategies come from.</span></div><span class="chev">›</span></summary><div class="body">
+ <ul class="sources" id="gsrc"></ul>
+ <p class="note" style="font-size:13px;color:var(--muted)">The phased plans are suggested approaches built from these sources and the main report, not measured results.</p>
+</div></details>
+</main>
+</div>
+<footer>Compiled from a research report on the Latino music industry in California, November 2026. Charts use the figures reported by the cited sources.</footer>
+
+<script>
+{
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt=(v,u)=>u==='$M'?'$'+v.toLocaleString()+'M':u==='$'?'$'+v:u==='%'?v+'%':u==='$T'?'$'+v+'T':v.toLocaleString();
+
+/* hero */
+const hero=[['2015',140],['2024',969.1],['2025',1009]];
+$('hero').innerHTML=hero.map(([y,v])=>`<div class="hbar" title="${y}: $${v}M"><b>$${v>=1000?(v/1000).toFixed(2)+'B':Math.round(v)+'M'}</b><i style="height:${v/1009*80}%"></i><span>${y}</span></div>`).join('');
+
+/* generic bar rows */
+function bars(id,data,unit,color,max){
+ max=max||Math.max(...data.map(d=>d[1]));
+ $(id).innerHTML=data.map(([l,v,c,lab])=>{const w=v/max*100;const inside=w>55;
+  return `<div class="row" title="${esc(l)}: ${fmt(v,unit)}"><div class="lab">${esc(l)}</div><div class="trk"><div class="fill" style="width:${w}%;background:${c||color}"></div><span class="val" style="${inside?`right:${100-w}%;color:#fff`:`left:${w}%`}">${lab||fmt(v,unit)}</span></div></div>`}).join('');
+}
+bars('gdp',[['2023 (actual)',1.0,'var(--s1)','over $1.0T'],['2030 (forecast)',1.4,'var(--s4)','$1.4T']],'$T');
+bars('glob',[['H1 2025',335.3,'var(--track)'],['H1 2026',363.2,'var(--s3)']],'');
+bars('tours',[['Shakira, Las Mujeres Ya No Lloran (124 shows)',565.5,'var(--s1)'],['Bad Bunny, Debí Tirar Más Fotos',472.2,'var(--s1)'],['Karol G, Tropitour 2026 (24 shows)',220.7,'var(--s1)'],['Fuerza Regida, first 8 stadium dates',47.2,'var(--rosa)'],['Peso Pluma, 17 shows (Oct 25–Mar 26)',29.3,'var(--s1)']],'$M');
+bars('fr',[['Dodger Stadium, Jul 18',49784,'var(--rosa)'],['Petco Park, Jun 18 (tour opener)',37770,'var(--rosa)']],'');
+bars('price',[['Bésame Mucho LA (GA)',435,'var(--down)','$435'],['La Onda (GA, from)',218,'var(--down)','$218+'],['Fuerza Regida at Dodger Stadium (avg)',186,'var(--s1)','~$186'],['Fresno jaripeo-bailes, kids under 12',0,'var(--up)','often free']],'$');
+bars('fscore',[['Canceled',3,'var(--down)','3 · La Onda, BelicoFest SJ, Bésame Mucho'],['Held',4,'var(--up)','4 · Coachella, BelicoFest LA, 2 corridos fests'],['Unconfirmed 2026',1,'var(--track)','1 · Corridos Fest Modesto']],'',4);
+
+/* growth grouped */
+const gr=[['Full year 2025',4.2,3.1],['H1 2025',5.9,0.9]];
+$('growth').innerHTML=gr.map(([l,a,b])=>`<div style="margin-top:12px"><div style="font-size:13px;color:var(--muted);margin-bottom:4px">${l}</div>`+
+ [[a,'var(--rosa)','Latin'],[b,'var(--s1)','All US']].map(([v,c,n])=>`<div class="trk" style="margin-bottom:3px" title="${n}: +${v}%"><div class="fill" style="width:${v/6*100}%;background:${c}"></div><span class="val" style="left:${v/6*100}%">+${v}%</span></div>`).join('')+`</div>`).join('');
+
+/* stack bars */
+function stack(id,parts){$(id).innerHTML=parts.map(([n,v,c])=>`<div title="${esc(n)}: ${v}%" style="width:${v}%;background:${c}"></div>`).join('')}
+stack('popbar',[['California',24.4,'var(--rosa)'],['Rest of US',75.6,'var(--track)']]);
+stack('lang',[['Spanish',9.4,'var(--s2)'],['English',87.1,'var(--s1)'],['Other',3.5,'var(--track)']]);
+const mix=[['Paid subscriptions $557.5M',55.2,'var(--s1)'],['Other streaming $434.4M',43.0,'var(--s3)'],['Physical $7.8M',0.8,'var(--s2)'],['Other $9.3M',0.9,'var(--muted)']];
+stack('mix',mix);$('mixleg').innerHTML=mix.map(([n,v,c])=>`<span style="--c:${c}">${n} (${v}%)</span>`).join('');
+
+/* dumbbell radio */
+const rad=[['KLVE 107.5 Amor (LA)',null,4.5],['KLAX 97.9 La Raza (LA)',3.9,2.8],['Que Buena 105.5/94.3 (LA)',null,2.0],['Latino Mix 103.9/98.3 (LA)',null,0.3],['Que Buena 98.9/99.1 (SF/SJ)',3.7,2.3],['Latino Mix 105.7/100.7 (SF/SJ)',0.8,1.5]];
+const RM=5;
+$('radiodb').innerHTML=rad.map(([l,a,b])=>{const pb=b/RM*100;let h='';
+ if(a!=null){const pa=a/RM*100,up=b>a,c=up?'var(--up)':'var(--down)';
+  h=`<div class="ln" style="left:${Math.min(pa,pb)}%;width:${Math.abs(pb-pa)}%;background:${c}"></div><div class="dot" style="left:${pa}%;background:var(--muted)"></div><div class="dot" style="left:${pb}%;background:${c}"></div><span class="t" style="left:${pb}%">${b}</span><span class="t" style="left:${pa}%;color:var(--muted);font-weight:400">${a}</span>`;}
+ else h=`<div class="dot" style="left:${pb}%;background:var(--s1)"></div><span class="t" style="left:${pb}%">${b}</span>`;
+ return `<div class="db" style="margin-top:22px" title="${esc(l)}: ${a!=null?a+' → ':''}${b}"><div>${esc(l)}</div><div class="dbt">${h}</div></div>`}).join('')+
+ `<div class="db"><div></div><div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted)">${[0,1,2,3,4,5].map(x=>`<span>${x}</span>`).join('')}</div></div>`;
+
+/* tables */
+const tbl=(id,rows)=>{$(id).innerHTML=rows.map(r=>'<tr>'+r.map(c=>`<td>${c}</td>`).join('')+'</tr>').join('')};
+tbl('kf',[
+['US Latin recorded-music revenue (wholesale)','$1.009B, +4.2% YoY (2024 restated: $969.1M)','2025, RIAA (Apr 9, 2026)','US'],
+['Latin share of US recorded revenue','8.8% (record)','2025, RIAA','US'],
+['Streaming share of Latin revenue','98.2%; paid subscriptions $557.5M (+9.8%)','2025, RIAA','US'],
+['Latin physical revenue','$7.8M, −28.1%','2025, RIAA via MBW','US'],
+['Spanish-language share of US streams','9.4% (record); English 87.1%','H1 2026, Luminate','US'],
+['Casual monthly Latin listenership','54% of US listeners (peak)','Q1 2026, Luminate','US'],
+['Global Latin streams','363.2B (up from 335.3B)','H1 2026, Luminate','Global'],
+['Latin America recorded-music growth','+17.1%, fastest region','2025, IFPI GMR 2026','Global'],
+['California Hispanic population','40.2% (15.78M); 24.4% of US Hispanics','ACS 2020–24','<b>California</b>'],
+['California Latino GDP','>$1T (2023); forecast $1.4T by 2030','Cal Lutheran/UCLA 2025; LDC 2025','<b>California</b>'],
+['Fuerza Regida, Dodger Stadium','$9,237,664 gross, 49,784 tickets, sold out','Jul 18, 2026, Pollstar','<b>California</b>'],
+['Fuerza Regida, Petco Park (opener)','37,770 fans, sold out','Jun 18, 2026, Pollstar','<b>California</b>'],
+['LA Spanish-language radio','10 stations ≈ 16% of LA radio audience','Oct 2026, LA Almanac/Nielsen','<b>California</b>']]);
+const X='<span class="tag x">Canceled</span>',OK='<span class="tag ok">Held</span>',Q='<span class="tag q">Unconfirmed</span>';
+tbl('fest',[
+['Festival La Onda','Napa Valley Expo',X+' 2026 (announced Feb 23, 2026)','~70,000 in 2024; ~20,000/day in 2025. 2026 lineup: Maná, J Balvin, Christian Nodal, Iván Cornejo. GA from $218. No reason given. In 2025 Grupo Firme pulled out, visas "under administrative review."'],
+['BelicoFest San José','PayPal Park',X+' Aug 21, 2026','Would have been the stadium\'s first concert (Tito Double P, Santa Fe Klan, Gerardo Ortiz and others). No reason given; organizers exploring new dates.'],
+['Bésame Mucho LA','Dodger Stadium',X+' Dec 2024; no 2026 LA edition','Followed Shakira\'s tour changes. GA was $435.'],
+['BelicoFest LA','BMO Stadium',OK+' Jul 12, 2026','Música mexicana festival with Spotify. The 2025 Phoenix edition drew 30,000+.'],
+['Coachella','Indio',OK+' Apr 10–19, 2026, sold out','Karol G first Latina headliner; Latin Times reported the first edition in eight years without a música mexicana act.'],
+['Corridos Summer Fest / Lumbre & Corridos Fest','Pico Rivera Sports Arena; Illusion Events Center, Gardena',OK+' Jul 11 and May 9, 2026','Arena-scale corridos showcases in Southeast LA County.'],
+['Corridos Fest','Modesto (John Thurman Field)',Q+' 2026; held May 24, 2025','With Arley Pérez, Javier Rosas, Los Nuevos Ilegales.']]);
+tbl('reg',[
+['<b>Los Angeles / East LA</b>','Corridos tumbados, banda, sierreño, Chicano soul, Latin alt/indie, reggaeton, mariachi','Dodger Stadium, SoFi, BMO Stadium, Kia Forum, YouTube Theater, Peacock Theater, Wiltern, Pico Rivera Sports Arena, Illusion Events Center, swap meets','KLVE, KLAX La Raza, KBUE Que Buena; LA Times De Los; LA Taco','Thee Sinseers, Chicano Batman, Los Lobos, Ozomatli, The Marías, Becky G, Chiquis, Lupillo Rivera; Rancho Humilde, Del Records'],
+['<b>Inland Empire</b>','Corridos, sierreño','Toyota Arena (Ontario), local bailes','KLVE (5.2–5.3 share)','Fuerza Regida (San Bernardino), Iván Cornejo (Riverside); Street Mob Records'],
+['<b>Orange County</b>','Regional Mexican, Latin pop, rock en español','Honda Center, nightclubs','Que Buena simulcast (Garden Grove)','Mostly a touring market for LA acts'],
+['<b>San Diego / Tijuana</b>','Chicano soul, corridos, banda, norteño-banda','Petco Park, Gallagher Square, Pechanga Arena, SOMA','Cross-border Tijuana media','Thee Sacred Souls; Grupo Firme, Los Tucanes de Tijuana'],
+['<b>Bay Area / San Jose / Oakland</b>','Norteño, rock en español, salsa/cumbia, reggaeton, Latin rap','SAP Center, San Jose Civic, Oakland Arena, The Fillmore, PayPal Park, Oracle Park','Que Buena 98.9/99.1, Latino Mix 105.7/100.7; KQED','Los Tigres del Norte, Snow Tha Product, Los Rakas, La Doña, Santana legacy'],
+['<b>Central Valley</b>','Banda, norteño, corridos, jaripeo-bailes, Oaxacan/Indigenous music','Save Mart Center, Saroyan Theatre, Rainbow Ballroom, Toro Bravo Arena, John Thurman Field, Mancini Bowl, Dignity Health Arena','Regional Mexican FM; community networks','Eslabon Armado (Patterson); promoters La Ceiba, Nieto Entertainment'],
+['<b>Sacramento</b>','Regional Mexican, Latin pop, Chicano rap','Golden 1 Center, ballrooms','Regional Spanish FM','Mainly a touring stop'],
+['<b>Coachella / Imperial Valley</b>','Latin pop/urbano (Coachella); regional Mexican','Empire Polo Club, casinos','Border-region Spanish radio','DannyLux (Palm Springs-area roots)'],
+['<b>Central Coast</b>','Banda, norteño, mixteco/Oaxacan, cumbia','Fairgrounds, ballrooms, rodeo arenas','Farmworker-oriented Spanish radio','Mainly bailes circuit']]);
+const gen=[
+['Corridos tumbados / bélicos','Peaking, under pressure','r','Fuerza Regida stadium run, Peso Pluma $29.3M midyear, Tito Double P cited by Luminate; visa revocations and Mexican bans target narco lyrics'],
+['Sad sierreño / romantic música mexicana','Rising','u','Iván Cornejo, Eslabon Armado; guitar-led heartbreak songs, popular with Gen Z'],
+['Banda / norteño / jaripeo-baile','Stable; nostalgia rising','s','Central Valley bailes; 90s Corridos Tour at LA\'s Peacock Theater, Aug 22, 2026'],
+['Mariachi / mariacheño','Stable, prestige','s','Christian Nodal; Mariachi Nuevo Tecalitlán at San Jose Civic, Nov 27, 2026'],
+['Reggaeton / Latin trap / urbano','Strong at superstar level','s','Bad Bunny Super Bowl; Karol G Coachella; Don Omar SAP Center; fewer mid-tier US tours'],
+['Latin pop','Strong','s','Shakira\'s record tour; Morat at Coachella'],
+['Rock en español / Latin alternative','Stable, legacy-driven','s','Maná sold out SAP Center; Caifanes, Moenia, José Madero'],
+['Cumbia (sonidero, Chicano, Central American)','Rising','u','Los Hermanos Flores\' Coachella debut; Tropa Magica'],
+['Chicano soul / oldies revival (English)','Rising fast','u','Thee Sinseers (new album and tour), Thee Sacred Souls (hometown headline)'],
+['English-language Latino indie/pop/R&B','Rising','u','Gigi Perez at Coachella; The Marías; Becky G'],
+['Bachata / salsa','Steady niche','s','Modesto Latin Music & Dance Festival; Grupo Niche and El Gran Combo booked for La Onda 2026'],
+['Música cristiana / worship','Steady, under-documented','s','Church-based circuits; no reliable 2026 California data'],
+['Narcocorridos (cartel tributes)','Declining live','d','Bans in 10 Mexican states incl. Baja California; visa risk; some acts dropped these songs'],
+['Physical formats','Declining','d','Latin physical −28.1% in 2025']];
+tbl('gen',gen.map(g=>[`<b>${esc(g[0])}</b>`,esc(g[1]),esc(g[3])]));
+const groups=[['u','Rising','var(--up)'],['s','Stable / strong','var(--s1)'],['d','Declining or under pressure','var(--down)']];
+$('mom').innerHTML=groups.map(([k,n,c])=>`<div class="col" style="border-top:4px solid ${c}"><h4>${n}</h4>${gen.filter(g=>g[2]===k||(k==='d'&&g[2]==='r')).map(g=>`<span class="chip">${esc(g[0])}</span>`).join('')}</div>`).join('');
+tbl('a1',[
+['<b>Fuerza Regida</b>','Formed in San Bernardino','Spanish','Petco Park (Jun 18), Oracle Park (Jun 20), Dodger Stadium ($9.24M, Jul 18), Bakersfield (Oct 24), Fresno (Oct 28)'],
+['<b>Eslabon Armado</b>','Patterson (Stanislaus Co.)','Spanish','Amor Nocturno Tour: YouTube Theater (Aug 7), Fresno (Sept 26), Fillmore SF (Sept 27), SOMA San Diego (Dec 5), Ontario (Feb 11, 2027)'],
+['<b>Iván Cornejo</b>','Born in Riverside, 2004','Spanish (bilingual persona)','La Onda 2026 headliner (canceled); international festival run'],
+['<b>DannyLux</b>','Coachella Valley roots','Spanish','Carson and Pico Rivera, July 2026'],
+['<b>Natanael Cano, Junior H, Legado 7, Lencho, Oscar Maydon</b>','Rancho Humilde (LA)','Spanish','Frequent SoCal shows'],
+['<b>Peso Pluma</b>','Mexico; heavy CA touring','Spanish','$29.3M midyear touring; a big San Jose draw'],
+['<b>Tito Double P, Santa Fe Klan, Gerardo Ortiz</b>','Mexico / Pasadena-born (Ortiz)','Spanish','BelicoFest lineups, LA and San José'],
+['<b>Chiquis, Lupillo Rivera</b>','Long Beach / Rivera family','Spanish','La Onda 2026 booking; 90s Corridos Tour'],
+['<b>Los Tigres del Norte</b>','San Jose-based','Spanish','Legacy draw statewide'],
+['<b>Grupo Firme, Los Tucanes de Tijuana</b>','Tijuana','Spanish','Firme\'s visas suspended 2025; Tucanes at Oakland Arena 2026']]);
+tbl('a2',[
+['<b>Bad Bunny</b>','Spanish','Super Bowl LX, Levi\'s Stadium, Feb 8, 2026 (only US date)'],
+['<b>Karol G</b>','Spanish','First Latina Coachella headliner, April 2026'],
+['<b>Shakira</b>','Spanish / English','Intuit Dome, Inglewood, Jun 13, 2026'],
+['<b>Don Omar, Ryan Castro, Álvaro Díaz</b>','Spanish','San Jose, fall 2026'],
+['<b>Becky G</b> (Inglewood)','Bilingual','LA-rooted crossover star']]);
+tbl('a3',[
+['<b>Thee Sinseers</b>','East LA','English (some Spanish)','Chicano soul','Love Stories (Sept 18, 2026); Wiltern, Fillmore'],
+['<b>Thee Sacred Souls</b>','San Diego','English','Sweet soul','Gallagher Square headline, Aug 28, 2026'],
+['<b>The Marías</b>','Los Angeles','Bilingual','Indie / dream pop','María Zardoya in Iván Cornejo\'s lotería short film'],
+['<b>Chicano Batman</b>','Los Angeles','Bilingual','Latin soul / psych','Endorsed rising acts like Tropa Magica'],
+['<b>Gigi Perez</b>','Cuban American','English','Indie folk-pop','Coachella 2026 debut'],
+['<b>Ozomatli, Los Lobos</b>','Los Angeles','Bilingual','Latin rock / fusion','Ozomatli booked for La Onda 2026'],
+['<b>Los Retros</b>','Mexican American','Instrumental','Soul / funk','Coachella 2026'],
+['<b>Snow Tha Product</b>','San Jose','Bilingual','Hip-hop','Bay Area Latin rap reference point'],
+['<b>Los Rakas</b>','Oakland','Spanish / English','Afro-Latin hip-hop','Bay Area']]);
+tbl('tl',[['Nov 2023','Tijuana imposes the first municipal narcocorrido ban'],['Dec 2024','Bésame Mucho LA canceled'],['Apr 2025','Los Alegres del Barranco visas revoked'],['May 2025','Julión Álvarez visa revoked, weeks after 3 sold-out SoFi shows'],['2025','Grupo Firme visas under review; pulls out of La Onda'],['Jun 2025','ICE raid at Santa Fe Springs Swap Meet postpones a concert'],['Feb 2026','Bad Bunny plays Super Bowl after skipping US touring; La Onda 2026 canceled (Feb 23)'],['Aug 2026','BelicoFest San José canceled (Aug 21)']]);
+tbl('opp',[
+['<b>Independent artists</b>','Bilingual releases; romantic or "motivational" corridos and sierreño (lower political risk); Chicano soul and indie for crossover audiences; build on TikTok, then mid-size rooms (Fillmore, Saroyan, Wiltern-scale)'],
+['<b>Producers / songwriters</b>','Corridos-plus-pop/EDM/reggaeton hybrids; writing for California\'s young US-born acts; documented human authorship as AI floods catalogs'],
+['<b>Content creators</b>','Spanish/English music commentary; local baile and jaripeo coverage; scene journalism like De Los and LA Taco; know-your-rights and event-safety content'],
+['<b>Promoters / small businesses</b>','Mid-size, moderately priced events with visible security and community partners; Central Valley arena and ballroom demand; food, merch and vintage-lowrider culture at Chicano soul events'],
+['<b>Labels / managers</b>','Artist-owned label model (Street Mob, Rancho Humilde); US-based rosters de-risk touring; vinyl as fan merch despite falling Latin physical sales']]);
+
+/* sources */
+const src=[
+['Pollstar: Fuerza Regida stadium trek','https://news.pollstar.com/2026/08/11/living-the-dream-fuerza-regida-manifest-landmark-stadium-trek-cover/'],
+['Music Business Worldwide: Latin tops $1B in 2025','https://www.musicbusinessworldwide.com/latin-music-generated-over-1-billion-in-us-wholesale-recorded-music-revenues-in-2025-up-4-2-yoy/'],
+['Billboard: RIAA 2025 Latin year-end report','https://www.billboard.com/pro/latin-music-revenue-united-states-2025-riaa-year-end-report/'],
+['RIAA: 2025 US Latin revenue report','https://www.riaa.com/reports/riaa-year-end-2025-us-latin-music-revenue-report-informe-anual-de-ingresos-de-la-musica-latina-en-ee-uu-de-riaa/'],
+['Luminate 2026 Midyear Report','https://luminatedata.com/blog/luminate-2026-midyear-report-trends-in-music-television-film/'],
+['Pacific Business Times: California Latino GDP','https://www.pacbiztimes.com/2025/07/24/california-latino-gdp-surges-past-1-trillion-clu-ucla-report-finds/'],
+['Latino Donor Collaborative: 2025 Latino GDP report','https://latinodonorcollaborative.org/press_release/ldc-releases-part-two-of-the-2025-official-ldc-u-s-latino-gdp-report-featuring-first-ever-state-level-forecasts-through-2030-and-mexican-american-contributions-to-regional-growth/'],
+['Pollstar: Fuerza Regida chart debut','https://news.pollstar.com/2026/07/13/top-tours-fuerza-regidas-this-is-our-dream-stadium-tour-earns-chart-debut/'],
+['LA Almanac: LA radio','http://www.laalmanac.com/media/me11.php'],
+['Billboard: highest-grossing Latin tours','https://www.billboard.com/lists/highest-grossing-latin-tours-billboard-boxscore-history/'],
+['Billboard: Midyear Touring 2026 (PDF)','https://www.billboard.com/wp-content/uploads/2026/05/Midyear-Touring-2026.pdf'],
+['The Hollywood Reporter: Bad Bunny Super Bowl','https://www.hollywoodreporter.com/music/music-news/bad-bunny-super-bowl-halftime-performance-2026-1236495646/'],
+['SF Chronicle: La Onda canceled','https://www.sfchronicle.com/entertainment/article/napa-la-onda-festival-canceled-21937582.php'],
+['SFGate: Napa festival canceled','https://www.sfgate.com/sf-culture/article/music-festival-canceled-napa-21938464.php'],
+['Times of San Diego: Grupo Firme visa suspension','https://timesofsandiego.com/arts/2025/06/01/popular-tijuana-based-band-cancels-california-appearance-due-to-visa-suspension/'],
+['Pollstar: BelicoFest San Jose canceled','http://news.pollstar.com/2026/08/21/mexican-music-festival-belicofest-cancels-san-jose-edition/'],
+['Billboard: BelicoFest San Jose canceled','https://www.billboard.com/music/latin/belicofest-san-jose-canceled-organizers-right-decision-1236322064/'],
+['Latin Times: Coachella 2026 Latino guide','https://www.latintimes.com/coachella-2026-how-watch-anywhere-latino-artists-know-full-headliners-guide-596434'],
+['Billboard: immigration policy and Latin music','https://www.billboard.com/music/latin/trump-immigration-policies-reshape-latin-music-future-1236003842/'],
+['RadioInsight: October 2026 PPM ratings','https://radioinsight.com/headlines/375776/october-2026-9-17-10-14-nielsen-audio-ppm-ratings-day-1-kpcc-sets-public-news-talk-high-in-los-angeles/'],
+['RadioInsight: Los Angeles ratings','https://radioinsight.com/ratings/los-angeles/'],
+['Smithsonian Folklife: urban corridos in South Central LA','https://folklife.si.edu/magazine/urban-corridos-south-central-la'],
+['Billboard: Indie Power Players 2026','https://www.billboard.com/pro/billboard-indie-power-players-2026-list/'],
+['MBW: Cinq invests in Street Mob Records','https://www.musicbusinessworldwide.com/cinq-music-invests-street-mob-records-fortifying-its-position-in-regional-mexican-genre/'],
+['Billboard: JOP and Street Mob Records','https://www.billboard.com/pro/jop-street-mob-records-gustavo-lopez-president/'],
+['Mitú: Thee Sinseers','https://wearemitu.com/wearemitu/entertainment/thee-sinseers-chicano-soul-band/'],
+['Petco Park Insider: Thee Sacred Souls','https://www.petcoparkinsider.com/concert-thee-sacred-souls'],
+['San José Spotlight: stadium to host first festival','https://sanjosespotlight.com/san-jose-stadium-to-host-first-live-music-festival/'],
+['American Community Media: cultural rights in the Central Valley','https://americancommunitymedia.org/arts-entertainment/a-victory-for-cultural-rights-in-californias-central-valley/'],
+['Billboard: Eslabon Armado 2026 tour dates','https://www.billboard.com/music/latin/eslabon-armado-2026-tour-dates-amor-nocturno-tour-1236268282/'],
+['NorCal Public Media: after La Onda cancellation','https://norcalpublicmedia.org/20260304100426/news-feed/after-la-onda-cancellation-sonoma-county-leaders-work-to-keep-latino-celebrations-going'],
+['Remezcla: Karol G first Latina Coachella headliner','https://remezcla.com/music/karol-gs-headlining-coachella-2026-becoming-first-latina-to-do-so/'],
+['Billboard: Fuerza Regida stadium tour','https://www.billboard.com/music/latin/fuerza-regida-stadium-tour-this-is-our-dream-exclusive-1236178480/'],
+['Billboard: Fuerza Regida Petco Park recap','https://www.billboard.com/lists/fuerza-regida-stadium-tour-san-diego-petco-park-recap/'],
+['ClickOrlando: visas revoked after cartel image','https://www.clickorlando.com/entertainment/2025/04/02/us-revokes-visas-of-mexican-band-members-after-cartel-leaders-face-was-projected-at-a-concert/'],
+['HuffPost: Grupo Firme visas','https://www.huffpost.com/entry/mexican-band-grupo-firme-visas-trump_n_683dcac8e4b095a138411da6'],
+['KQED: La Onda 2026 lineup','https://www.kqed.org/arts/13986582/la-onda-2026-lineup-j-balvin-christian-nodal-mana-ivan-cornejo-more-in-napa'],
+['Wikipedia: highest-grossing Latin concert tours','https://en.wikipedia.org/wiki/List_of_highest-grossing_concert_tours_by_Latin_artists'],
+['Wikipedia: 111xpantia','https://en.wikipedia.org/wiki/111xpantia'],
+['LA Live: 90s Corridos Tour','https://www.lalive.com/events/detail/90scorridostour082226'],
+['Modesto Latin Music & Dance Festival','https://modestodancefest.com/'],
+['JamBase: Latin concerts in the SF Bay Area','https://www.jambase.com/concerts/us/california/latin-concerts-in-san-francisco-bay-area']];
+$('src').innerHTML=src.map(([t,u])=>`<li><a href="${esc(u)}">${esc(t)}</a></li>`).join('');
+
+/* growth tab */
+$('ctype').innerHTML=[['Trend content','Most reach and new followers','var(--s1)'],['Music content','Strongest engagement rate','var(--rosa)'],['Identity content','Most watched to the end','var(--s3)']].map(([n,d,c])=>`<div style="border-left:4px solid ${c};padding:6px 12px"><b>${n}</b><br><span style="font-size:14px;color:var(--muted)">${d}</span></div>`).join('');
+tbl('play',[
+['<b>Own your label</b>','JOP founded Street Mob in 2018 while still a new artist; Peso Pluma runs Double P Records','Artists keep masters, publishing and touring income'],
+['<b>Stay independent, partner for distribution</b>','Rancho Humilde and Street Mob distribute through Cinq Music','Global reach without giving up ownership'],
+['<b>Target a specific audience</b>','Rancho Humilde aimed at 2nd and 3rd generation Mexican Americans','A clear audience is easier to reach and keep'],
+['<b>Start in the community</b>','Jimmy Humilde began promoting a house party with street flyers; Fuerza Regida played backyard carne asadas','Local fans become the first superfans'],
+['<b>Grow into a 360-degree business</b>','Street Mob added management, publishing, touring; Rancho Humilde signed a Sony Pictures film deal (Clika)','More ways to earn from the same fans'],
+['<b>Choose lower-risk themes</b>','Romantic and "motivational" corridos are rising','Cartel themes bring visa, ban and sponsor problems'],
+['<b>Stay US-based for touring</b>','Fuerza Regida, Eslabon Armado, Iván Cornejo sold stadiums and arenas in 2026','No visa risk for promoters']]);
+const phc=['var(--s1)','var(--s3)','var(--s4)','var(--rosa)','var(--s2)'];
+const phase=(id,names)=>{$(id).innerHTML=names.map((n,i)=>`<div style="background:${phc[i]}">${n}</div>`).join('')};
+phase('ph1',['0–3 mo: Foundation','3–6 mo: Discovery','6–9 mo: Connection','9–12 mo: Local live','Year 2+: Scale']);
+phase('ph2',['0–3 mo: Foundation','3–6 mo: Consistency','6–9 mo: Community','9–12 mo: Events','Year 2+: Sustain']);
+phase('ph3',['0–3 mo: Niche','3–6 mo: Volume','6–9 mo: Access','9–12 mo: Revenue','Year 2+: Business']);
+tbl('p1',[
+['<b>Months 0–3</b>','Identity and setup','Pick a lane (sierreño, cumbia, soul, worship, pop) and a clear audience; set up distribution (DistroKid, TuneCore or similar); register songs with a PRO (ASCAP/BMI) and the MLC; claim Spotify for Artists, YouTube Official Artist Channel, TikTok and Instagram; record 3–5 songs','Profiles complete; songs registered; first release scheduled'],
+['<b>Months 3–6</b>','Short-form video','Post 4–7 clips a week: covers of trending songs, behind-the-scenes, snippets, your story; release a single every 4–6 weeks; tag your area code (#209, #408) to find local fans','Repeat listeners and saves rising; a clip passes 10K views'],
+['<b>Months 6–9</b>','Superfans','Reply to comments and DMs; go live weekly; start an email list or broadcast channel with demos as the hook; collaborate with a local artist your size','100+ people on your list; fans sharing your songs'],
+['<b>Months 9–12</b>','Shows and merch','Play bailes, quinceañeras, church events, local fests and small venues; sell simple merch; film every show for content','Selling 50–100 tickets locally; merch covering costs'],
+['<b>Year 2+</b>','Business','Open for touring acts at mid-size rooms (Fillmore, Saroyan, Wiltern size); consider your own label imprint; seek a distribution partner, not a full label deal','Regional draw; offers from promoters']]);
+tbl('p2',[
+['<b>Months 0–3</b>','Clear identity','Decide the angle (live worship from services, original songs, acoustic coros, devotional clips); brand YouTube, Instagram and TikTok the same way; confirm licensing for covers (e.g., a CCLI streaming license for livestreamed worship)','Consistent branding; licensing in place'],
+['<b>Months 3–6</b>','A weekly rhythm','One full worship video or livestream a week, cut into 4–6 short clips (OpusClip); lyrics on screen for sing-along; Spanish content with bilingual titles and descriptions','Watch time and subscribers growing weekly'],
+['<b>Months 6–9</b>','Participation','Reply to prayer requests and comments; "which coro next?" polls; feature members, testimonies and youth musicians; collaborate with other Spanish-speaking churches and worship leaders','Repeat commenters; shares in church networks'],
+['<b>Months 9–12</b>','Offline to online','Worship nights, youth concerts or a small multi-church event with free or low-cost entry; record everything for content','Attendance; new subscribers after each event'],
+['<b>Year 2+</b>','Originals and support','Release original songs on streaming; simple merch or a giving link; consider a small ministry label or collective for local worship artists','Original songs streaming; local artists joining']]);
+tbl('p3',[
+['<b>Months 0–3</b>','Pick a lane','Choose a focus (Central Valley shows, rising corridos artists, Chicano soul, or Christian music) and a format (recaps, reactions, interviews, event vlogs); one name across YouTube, TikTok, Instagram','A clear one-line pitch; first 10 posts out'],
+['<b>Months 3–6</b>','Daily short-form','Daily clips: release reactions, "artists to watch," show highlights, data facts (like Fuerza Regida\'s $9.24M night); repurpose long videos with OpusClip; bilingual captions','Steady follower growth; some posts breaking out'],
+['<b>Months 6–9</b>','Relationships','Interview local and rising artists; cover shows in person; trade coverage for promoter passes; start a newsletter or broadcast channel','Artists and promoters reaching out'],
+['<b>Months 9–12</b>','First income','YouTube Partner Program and TikTok creator rewards; paid promos for releases and events; local business sponsors; artist services (editing, social management, release rollouts)','First paying clients and sponsors'],
+['<b>Year 2+</b>','Brand and events','Host a showcase for artists you cover; build a small team; offer artist marketing packages','Recurring income; known in the scene']]);
+const checks={c1:['Choose genre lane and target audience','Register songs with a PRO and the MLC','Claim artist profiles on Spotify, YouTube, TikTok, Instagram','Plan a 12-week posting calendar','Start an email list or broadcast channel','Book first local show'],
+c2:['Pick the channel\'s angle and name','Confirm licensing for cover songs and livestreams','Set a weekly upload or livestream day','Build a short-clip workflow from each service','Plan a first worship night or youth event'],
+c3:['Choose a niche and a channel name','List 20 local or rising artists to cover','Set up a daily clip workflow','Reach out to 3 promoters about event coverage','Create a simple services menu for artists']};
+let saved={};try{saved=JSON.parse(localStorage.getItem('lmca-checks')||'{}')}catch(e){}
+document.querySelectorAll('.checks').forEach(box=>{const k=box.dataset.k;
+ box.innerHTML=checks[k].map((t,i)=>`<label><input type="checkbox" data-id="${k}-${i}" ${saved[k+'-'+i]?'checked':''}> ${esc(t)}</label>`).join('')});
+document.addEventListener('change',e=>{const t=e.target;if(t.matches('.checks input')){saved[t.dataset.id]=t.checked;try{localStorage.setItem('lmca-checks',JSON.stringify(saved))}catch(err){}}});
+const gsrc=[
+['Billboard: JOP and Street Mob Records','https://www.billboard.com/pro/jop-street-mob-records-gustavo-lopez-president'],
+['Hypebot: Rancho Humilde signs with Cinq Music','https://www.hypebot.com/indie-label-rancho-humilde-inks-with-cinq-music-worldwide/'],
+['Billboard: From the Desk of Jimmy Humilde','https://www.pressreader.com/usa/billboard/20230603/281775633543005'],
+['MBW: Cinq invests in Street Mob','https://www.musicbusinessworldwide.com/cinq-music-invests-in-street-mob-records-fortifying-its-position-in-regional-mexican-genre/'],
+['Rancho Humilde\'s Sony Pictures deal and Clika film','https://www.aol.com/articles/rancho-humilde-goes-hollywood-indie-161145313.html'],
+['SoundCloud: Indie Latino (Double P Records, Street Mob)','https://soundcloud.com/stories/post/indie-latino-playlist'],
+['Trill Mag: TikTok and Instagram without a label','https://www.trillmag.com/?p=299823'],
+['OnesToWatch: building a real audience in 2026','https://resources.onestowatch.com/?p=1298'],
+['LAB University: TikTok content strategy case study','https://blogit.lab.fi/labfocus/en/can-tiktok-help-independent-artists-build-a-recognizable-identity/'],
+['Heropost: social media strategy for artists 2026','https://heropost.io/?p=13098'],
+['Making a Scene: the indie playbook rewritten','https://makingascene.org/the-indie-artist-playbook-is-being-rewritten-in-real-time'],
+['Contra: superfan ecosystem case study','https://contra.com/p/2Pos27mX-building-a-superfan-ecosystem-for-an-indie-artist']];
+$('gsrc').innerHTML=gsrc.map(([t,u])=>`<li><a href="${esc(u)}">${esc(t)}</a></li>`).join('');
+
+/* tabs */
+const panels={report:$('p-report'),growth:$('p-growth')};
+function show(k){for(const p in panels){panels[p].hidden=p!==k;$('t-'+p).setAttribute('aria-selected',p===k)}}
+$('t-report').addEventListener('click',()=>show('report'));
+$('t-growth').addEventListener('click',()=>show('growth'));
+const tabFor=el=>el&&el.closest('#p-growth')?'growth':'report';
+
+/* controls */
+const setAll=(panel,v)=>panel.querySelectorAll('details.sec').forEach(d=>d.open=v);
+$('openAll').addEventListener('click',()=>setAll(panels.report,true));
+$('closeAll').addEventListener('click',()=>setAll(panels.report,false));
+$('gOpen').addEventListener('click',()=>setAll(panels.growth,true));
+$('gClose').addEventListener('click',()=>setAll(panels.growth,false));
+document.querySelectorAll('nav.bar a').forEach(a=>a.addEventListener('click',()=>{const d=document.querySelector(a.getAttribute('href'));if(d)d.open=true}));
+const fromHash=()=>{const d=location.hash&&document.getElementById(location.hash.slice(1));if(d){show(tabFor(d));if(d.tagName==='DETAILS')d.open=true}};
+fromHash();window.addEventListener('hashchange',fromHash);
+}
+</script>
+</body>
+</html>
