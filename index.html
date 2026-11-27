@@ -111,11 +111,9 @@ ol li,ul li{margin-bottom:6px}
 .route::before{content:"";position:absolute;left:9px;top:8px;bottom:8px;width:4px;border-radius:2px;background:var(--rosa)}
 .stop{position:relative;padding:10px 0 14px}
 .stop::before{content:"";position:absolute;left:-26px;top:14px;width:14px;height:14px;border-radius:50%;background:var(--bg);border:4px solid var(--rosa)}
-.stop.you::before{background:var(--rosa)}
 .stop b{font:800 18px Archivo,sans-serif}
 .stop .meta{font-size:13px;color:var(--muted)}
 .stop p{margin:4px 0 0;font-size:15px}
-.youtag{font-size:12px;font-weight:700;background:var(--rosa);color:#fff;border-radius:999px;padding:2px 8px;margin-left:6px;vertical-align:2px}
 .months{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr));gap:10px;margin-top:12px}
 .month{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px;font-size:14px}
 .month h4{margin:0 0 6px;font:700 15px Archivo,sans-serif;color:var(--rosa)}
@@ -425,7 +423,7 @@ pre,.scroll{overflow-x:auto}html{scroll-padding-top:72px}
  </ul>
 </div></details>
 
-<details class="sec" id="v-route"><summary><div class="sumtext"><h2>City by city, north to south</h2><span class="lead">The Highway 99 circuit, with Turlock in the middle.</span></div><span class="chev">›</span></summary><div class="body">
+<details class="sec" id="v-route"><summary><div class="sumtext"><h2>City by city, north to south</h2><span class="lead">The Highway 99 circuit, from Stockton to Bakersfield.</span></div><span class="chev">›</span></summary><div class="body">
  <div class="route" id="vroute"></div>
 </div></details>
 
@@ -483,7 +481,6 @@ pre,.scroll{overflow-x:auto}html{scroll-padding-top:72px}
 
 <details class="sec" id="v-opp"><summary><div class="sumtext"><h2>Opportunities in the Valley</h2><span class="lead">Where a local artist, channel or creator can fit in.</span></div><span class="chev">›</span></summary><div class="body">
  <div class="scroll"><table class="stack"><thead><tr><th>Opportunity</th><th>Why it's open</th><th>First step</th></tr></thead><tbody id="vopp"></tbody></table></div>
- <div class="callout"><b>Turlock's spot:</b> it sits between Modesto, Merced and the Stanislaus County Fairgrounds, which already hosts corridos and banda shows. That makes the 209 a natural home base for a Valley-focused music channel or event series.</div>
 </div></details>
 
 <details class="sec" id="v-src"><summary><div class="sumtext"><h2>Sources</h2><span class="lead">Where the Central Valley facts come from.</span></div><span class="chev">›</span></summary><div class="body">
@@ -737,13 +734,13 @@ const route=[
 ['Stockton','San Joaquin County','Adventist Health Arena hosts arena tours (a 2026 corridos tour stop, Sept 26). Grupero band La Migra came from here. San Joaquin County Fairgrounds hosts the Expo Quinceañera Show.',0],
 ['Modesto','Stanislaus County','Gallo Center for the Arts (Banda El Limón Aug 15, Jesse & Joy Sept 11, Fey Mar 27, 2026), Palladium Nightclub, Mancini Bowl (Latin Music & Dance Festival), John Thurman Field (Corridos Fest 2025), State Theatre. Home of Modesto Sound.',0],
 ['Patterson','Stanislaus County','Hometown of Eslabon Armado (formed 2017).',0],
-['Turlock','Stanislaus County','Stanislaus County Fairgrounds hosts corridos and banda bills (Los Caimanes de Sinaloa, Los Austeros de Durango, Arley Pérez, Grupo Recluta, Banda Toro) plus the July county fair. Part of the 1980s–90s grupero club circuit.',1],
+['Turlock','Stanislaus County','Stanislaus County Fairgrounds hosts corridos and banda bills (Los Caimanes de Sinaloa, Los Austeros de Durango, Arley Pérez, Grupo Recluta, Banda Toro) plus the July county fair. Part of the 1980s–90s grupero club circuit.',0],
 ['Gustine','Merced County','Plaza de Toros Monumental de Gustine hosts jaripeos and banda shows (e.g., Banda El Recodo).',0],
 ['Merced / Atwater / Livingston','Merced County','Merced County Fair (June) closes with Jaripeo Tremendo. Historic grupero clubs; Los Kinos came from Livingston.',0],
 ['Fresno','Fresno County','The Valley\'s biggest market: Save Mart Center, Chukchansi Park, William Saroyan Theatre, Rainbow Ballroom, Toro Bravo Arena (jaripeo-bailes), Los Arcos Nightclub, Memorial Auditorium. The Valley Fest (Fresno edition, June 2025) and the Big Fresno Fair (October).',0],
 ['Delano / Visalia','Kern and Tulare','Mariachi Mestizo (Delano, 25 years). Tulare County is about two-thirds Latino.',0],
 ['Bakersfield','Kern County','Dignity Health Arena hosts arena tours (Fuerza Regida Oct 24, 2026; a corridos tour stop Oct 16). Kern County Fair runs late September to early October.',0]];
-$('vroute').innerHTML=route.map(([c,co,d,y])=>`<div class="stop${y?' you':''}"><b>${c}</b>${y?'<span class="youtag">You are here</span>':''} <span class="meta">· ${co}</span><p>${d}</p></div>`).join('');
+$('vroute').innerHTML=route.map(([c,co,d,y])=>`<div class="stop"><b>${c}</b> <span class="meta">· ${co}</span><p>${d}</p></div>`).join('');
 tbl('vshows',[
 ['Oct 28, 2026','Fuerza Regida','Save Mart Center','Fresno'],
 ['Oct 24, 2026','Fuerza Regida','Dignity Health Arena','Bakersfield'],
