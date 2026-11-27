@@ -107,6 +107,19 @@ ol li,ul li{margin-bottom:6px}
 .step:last-child::after{content:none}
 .phases{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:3px;margin:14px 0 6px}
 .phases div{padding:8px;font-size:12px;line-height:1.3;color:#fff;border-radius:4px}
+.route{position:relative;margin:16px 0;padding-left:28px}
+.route::before{content:"";position:absolute;left:9px;top:8px;bottom:8px;width:4px;border-radius:2px;background:var(--rosa)}
+.stop{position:relative;padding:10px 0 14px}
+.stop::before{content:"";position:absolute;left:-26px;top:14px;width:14px;height:14px;border-radius:50%;background:var(--bg);border:4px solid var(--rosa)}
+.stop.you::before{background:var(--rosa)}
+.stop b{font:800 18px Archivo,sans-serif}
+.stop .meta{font-size:13px;color:var(--muted)}
+.stop p{margin:4px 0 0;font-size:15px}
+.youtag{font-size:12px;font-weight:700;background:var(--rosa);color:#fff;border-radius:999px;padding:2px 8px;margin-left:6px;vertical-align:2px}
+.months{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr));gap:10px;margin-top:12px}
+.month{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px;font-size:14px}
+.month h4{margin:0 0 6px;font:700 15px Archivo,sans-serif;color:var(--rosa)}
+.month ul{margin:0;padding-left:18px}
 .checks label{display:flex;gap:10px;align-items:center;min-height:40px;font-size:15px}
 .checks input{width:20px;height:20px;accent-color:var(--rosa)}
 @media(max-width:700px){.flow{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.step:nth-child(2)::after{content:none}.phases{grid-template-columns:minmax(0,1fr)}}
@@ -137,7 +150,7 @@ pre,.scroll{overflow-x:auto}html{scroll-padding-top:72px}
  </figure>
 </div></header>
 
-<div class="tabs" role="tablist"><button class="tab" role="tab" id="t-report" aria-selected="true">Industry report</button><button class="tab" role="tab" id="t-growth" aria-selected="false">Growth strategies</button></div>
+<div class="tabs" role="tablist"><button class="tab" role="tab" id="t-report" aria-selected="true">Industry report</button><button class="tab" role="tab" id="t-growth" aria-selected="false">Growth strategies</button><button class="tab" role="tab" id="t-valley" aria-selected="false">Central Valley</button></div>
 <div id="p-report">
 <nav class="bar" aria-label="Sections"><div class="wrap">
  <button class="ctl" id="openAll">Expand all</button><button class="ctl" id="closeAll">Collapse all</button>
@@ -379,6 +392,106 @@ pre,.scroll{overflow-x:auto}html{scroll-padding-top:72px}
 </div></details>
 </main>
 </div>
+
+<div id="p-valley" hidden>
+<nav class="bar" aria-label="Central Valley sections"><div class="wrap">
+ <button class="ctl" id="vOpen">Expand all</button><button class="ctl" id="vClose">Collapse all</button>
+ <a href="#v-sum">Overview</a><a href="#v-people">People</a><a href="#v-route">City by city</a><a href="#v-live">Big shows</a><a href="#v-cal">Calendar</a><a href="#v-radio">Radio</a><a href="#v-artists">Artists</a><a href="#v-history">History</a><a href="#v-scene">Community</a><a href="#v-opp">Opportunities</a><a href="#v-src">Sources</a>
+</div></nav>
+<main>
+<details class="sec" id="v-sum" open><summary><div class="sumtext"><h2>Central Valley at a glance</h2><span class="lead">A majority-Latino region where stars now tour arenas and the grassroots runs on bailes.</span></div><span class="chev">›</span></summary><div class="body">
+ <p>The Central Valley is one of the most Latino parts of California and is projected to be the state's fastest-growing region through 2060. It has grown from a dance-hall and baile circuit into a must-play arena market for the biggest música mexicana acts, while jaripeo-bailes, fairs and community festivals keep the grassroots strong. It is also under-covered by media, which leaves room for local creators.</p>
+ <div class="kpis" style="margin-top:6px">
+  <div class="kpi" style="border-color:var(--rosa)"><div class="big">52.7%</div><small style="color:var(--muted)">of the Fresno radio market is Hispanic (440,800 of 837,100, 2026)</small></div>
+  <div class="kpi" style="border-color:var(--rosa)"><div class="big">~20,000</div><small style="color:var(--muted)">fans at Chukchansi Park for a lineup with Peso Pluma (Mar 2023)</small></div>
+  <div class="kpi" style="border-color:var(--rosa)"><div class="big">92.8%</div><small style="color:var(--muted)">of corridos artists are independent (Duetti/Chartmetric 2026)</small></div>
+ </div>
+ <ul style="margin-top:18px">
+  <li><b>Stadium and arena stars now route through the Valley:</b> Fuerza Regida (Bakersfield Oct 24, Fresno Oct 28, 2026), Peso Pluma with Tito Double P (Save Mart Center, Mar 11, 2026), and Eslabon Armado (Saroyan Theatre, Sept 26, 2026).</li>
+  <li><b>The Valley makes stars too:</b> Eslabon Armado formed in Patterson in 2017 and became a leading voice of sad sierreño.</li>
+  <li><b>The grassroots is jaripeo-bailes, fairs and ballrooms:</b> Toro Bravo Arena (Fresno), Stanislaus County Fairgrounds (Turlock), Plaza de Toros in Gustine, the Rainbow Ballroom.</li>
+  <li><b>A local creative wave is being documented:</b> a Modesto Sound documentary on Stanislaus County's regional Mexican musicians ("It's like we're Detroit and this is Motown") and the film <i>Lirios En El Valle</i>.</li>
+ </ul>
+</div></details>
+
+<details class="sec" id="v-people"><summary><div class="sumtext"><h2>The audience</h2><span class="lead">Every major Valley county is about half Latino or more.</span></div><span class="chev">›</span></summary><div class="body">
+ <div class="grid2">
+  <div class="card"><h4>Hispanic or Latino share of population, by county</h4><div class="rows" id="vcounty"></div><p class="note">Census QuickFacts (Kings, Kern, Fresno, Stanislaus); Tulare from the 2020 Census. Madera and Merced counties are each over 50% (CA Office of Community Partnerships, 2025). LA County (48.6%) shown for comparison.</p></div>
+  <div class="card"><h4>Fresno radio market population, 2026</h4><div class="stackbar" id="vfresno"></div><div class="legend"><span style="--c:var(--rosa)">Hispanic 440,800 (52.7%)</span><span style="--c:var(--track)">Everyone else 396,300</span></div><p class="note">Nielsen market #66, persons 12+, via Radio Online (March 2026 report).</p></div>
+ </div>
+ <ul style="margin-top:16px">
+  <li>The Central Valley (northern and southern regions) is projected to have the fastest population growth in California through 2060 (CA Department of Finance).</li>
+  <li>The Valley is shaped by farm labor and migration, and its music scene grew up as a place to gather, celebrate and feel at home.</li>
+ </ul>
+</div></details>
+
+<details class="sec" id="v-route"><summary><div class="sumtext"><h2>City by city, north to south</h2><span class="lead">The Highway 99 circuit, with Turlock in the middle.</span></div><span class="chev">›</span></summary><div class="body">
+ <div class="route" id="vroute"></div>
+</div></details>
+
+<details class="sec" id="v-live"><summary><div class="sumtext"><h2>Big shows: crowds keep growing</h2><span class="lead">From 4,000-person dances to 20,000-person stadium lineups.</span></div><span class="chev">›</span></summary><div class="body">
+ <div class="grid2">
+  <div class="card"><h4>Fresno crowd sizes for regional Mexican shows</h4><div class="rows" id="vcrowd"></div><p class="note">Fresno Bee (Oct 2023). "Back then" = the era when 4,000+ for Los Bukis counted as a success.</p></div>
+  <div class="card"><h4>Why Fresno draws the biggest acts</h4>
+   <ul style="margin:6px 0 0;padding-left:18px">
+    <li>Decades of grassroots demand: dances at the Fresno Convention Center and Rainbow Ballroom, swap-meet cassettes, radio, word of mouth.</li>
+    <li>Promoter David Valdivia (Valdivia Marketing Group) recalls Friday after Friday of different artists, always packed.</li>
+    <li>Banda MS's US general manager calls Fresno "an important market for all of California."</li>
+    <li>Live Nation now has a regional Latin music marketing team in California.</li>
+   </ul></div>
+ </div>
+ <h3>Recent and upcoming arena and theater shows</h3>
+ <div class="scroll"><table class="stack"><thead><tr><th>Date</th><th>Artist</th><th>Venue</th><th>City</th></tr></thead><tbody id="vshows"></tbody></table></div>
+</div></details>
+
+<details class="sec" id="v-cal"><summary><div class="sumtext"><h2>The Valley's Latino music calendar</h2><span class="lead">Fairs, jaripeos and festivals, month by month.</span></div><span class="chev">›</span></summary><div class="body">
+ <p>Dates are 2026 editions; most of these repeat every year around the same time.</p>
+ <div class="months" id="vcal"></div>
+</div></details>
+
+<details class="sec" id="v-radio"><summary><div class="sumtext"><h2>Radio</h2><span class="lead">Spanish radio is plentiful, but regional Mexican ratings are slipping here too.</span></div><span class="chev">›</span></summary><div class="body">
+ <div class="card"><h4>Fresno: La Picosa 107.9 (KLLE, regional Mexican) audience share</h4><div class="rows" id="vklle"></div><p class="note">Nielsen via Radio Online, persons 12+. Over the same months Spanish Hits KKBZ rose from 0.6 to 0.8.</p></div>
+ <div class="scroll"><table class="stack"><thead><tr><th>Station</th><th>Format</th><th>Notes</th></tr></thead><tbody id="vradio"></tbody></table></div>
+</div></details>
+
+<details class="sec" id="v-artists"><summary><div class="sumtext"><h2>Valley artists and groups</h2><span class="lead">From Patterson's Eslabon Armado to Fresno's son jarocho.</span></div><span class="chev">›</span></summary><div class="body">
+ <div class="scroll"><table class="stack"><thead><tr><th>Artist</th><th>Hometown / base</th><th>Style</th><th>Notes</th></tr></thead><tbody id="vart"></tbody></table></div>
+</div></details>
+
+<details class="sec" id="v-history"><summary><div class="sumtext"><h2>A little history: the grupero years</h2><span class="lead">Merced, Atwater and Turlock nightclubs in the 1980s and 90s.</span></div><span class="chev">›</span></summary><div class="body">
+ <ul>
+  <li>In the 1980s and 90s, weekends in the Valley ran on música grupera: ballads, cumbias, rancheras and dance songs played by bands that often held day jobs.</li>
+  <li>Popular acts included La Migra (Stockton), Los Kinos (Livingston) and Los Tigres del Norte (San Jose). Los Kinos' singer Adolfo Sanchez came to Merced in 1969 and worked the fields before performing.</li>
+  <li>Clubs in Merced, Atwater and <b>Turlock</b> (Scorpio, the Mixatorium, the Joaquin Club, La Rana) filled up, with weekend tardeadas at the Merced County Fairgrounds. One resident recalled about 27 bars in Merced.</li>
+  <li>With little Spanish radio, word of mouth drove it: crowds followed bands from club to club.</li>
+  <li>The scene thinned after Castle Air Force Base closed (1995) and cruising on Main Street was banned. Residents now say young people lack outlets and live shows cost far more.</li>
+ </ul>
+ <div class="callout">That last point is an opening: affordable, all-ages local music events are exactly what older residents say is missing.</div>
+</div></details>
+
+<details class="sec" id="v-scene"><summary><div class="sumtext"><h2>Community and culture</h2><span class="lead">Nonprofits, documentaries and traditional music programs.</span></div><span class="chev">›</span></summary><div class="body">
+ <ul>
+  <li><b>Modesto Sound</b> (110 Santa Barbara Ave., Modesto): started as a recording studio in 2005, a nonprofit since 2015. Workshops, recording space and job training for young people at little or no cost, with scholarships and mobile recording in west and south Modesto.</li>
+  <li><b>Modesto Sound documentary:</b> follows about a dozen Stanislaus County mariachi, banda, norteño and Tejano musicians; funded with $20,000 from the Stanislaus Community Foundation; about two-thirds done as of May 2026, with a local premiere planned (possibly the State Theatre). It began when customers at a local music store kept asking for tololoches.</li>
+  <li><b><i>Lirios En El Valle</i>:</b> a film traveling through Modesto and Stanislaus County to meet the artists building regional Mexican music "from the ground up."</li>
+  <li><b>Canciones del San Joaquín:</b> 10 original songs by Valley artists, from the Alliance for California Traditional Arts and Radio Bilingüe; its concert drew nearly 500 people to Fresno Memorial Auditorium.</li>
+  <li><b>Los Fresnanitos</b> (Fresno) use son jarocho to tell Valley stories, including "La Bamba para el Valle," a tribute to campesino heritage.</li>
+  <li><b>Mariachi Mestizo</b> (Delano) celebrated 25 years of music.</li>
+  <li><b>Fresno's Oaxacan Guelaguetza</b> was themed "Resistance, Culture, Roots, Tradition" in 2025, during the immigration raids.</li>
+ </ul>
+</div></details>
+
+<details class="sec" id="v-opp"><summary><div class="sumtext"><h2>Opportunities in the Valley</h2><span class="lead">Where a local artist, channel or creator can fit in.</span></div><span class="chev">›</span></summary><div class="body">
+ <div class="scroll"><table class="stack"><thead><tr><th>Opportunity</th><th>Why it's open</th><th>First step</th></tr></thead><tbody id="vopp"></tbody></table></div>
+ <div class="callout"><b>Turlock's spot:</b> it sits between Modesto, Merced and the Stanislaus County Fairgrounds, which already hosts corridos and banda shows. That makes the 209 a natural home base for a Valley-focused music channel or event series.</div>
+</div></details>
+
+<details class="sec" id="v-src"><summary><div class="sumtext"><h2>Sources</h2><span class="lead">Where the Central Valley facts come from.</span></div><span class="chev">›</span></summary><div class="body">
+ <ul class="sources" id="vsrc"></ul>
+ <p class="note" style="font-size:13px;color:var(--muted)">Event listings come from ticketing and venue pages and can change. The opportunities table is a suggestion built from the research, not measured results.</p>
+</div></details>
+</main>
+</div>
 <footer>Compiled from a research report on the Latino music industry in California, November 2026. Charts use the figures reported by the cited sources.</footer>
 
 <script>
@@ -615,12 +728,98 @@ const gsrc=[
 ['Contra: superfan ecosystem case study','https://contra.com/p/2Pos27mX-building-a-superfan-ecosystem-for-an-indie-artist']];
 $('gsrc').innerHTML=gsrc.map(([t,u])=>`<li><a href="${esc(u)}">${esc(t)}</a></li>`).join('');
 
+/* central valley tab */
+bars('vcounty',[['Tulare (2020)',65.5,'var(--rosa)'],['Kings',58.8,'var(--rosa)'],['Kern',57.1,'var(--rosa)'],['Fresno',54.9,'var(--rosa)'],['Stanislaus',50.9,'var(--rosa)'],['LA County (comparison)',48.6,'var(--track)']],'%',100);
+stack('vfresno',[['Hispanic',52.7,'var(--rosa)'],['Everyone else',47.3,'var(--track)']]);
+bars('vcrowd',[['Los Bukis (back then)',4000,'var(--track)','4,000+'],['Grupo Firme, Save Mart Center (2022)',16000,'var(--s1)','~16,000'],['Peso Pluma lineup, Chukchansi Park (Mar 2023)',20000,'var(--rosa)','~20,000']],'');
+bars('vklle',[['Dec 2025',1.7,'var(--s1)'],['Jan 2026',1.4,'var(--s1)'],['Feb 2026',1.4,'var(--s1)'],['Mar 2026',0.7,'var(--down)']],'',2);
+const route=[
+['Stockton','San Joaquin County','Adventist Health Arena hosts arena tours (a 2026 corridos tour stop, Sept 26). Grupero band La Migra came from here. San Joaquin County Fairgrounds hosts the Expo Quinceañera Show.',0],
+['Modesto','Stanislaus County','Gallo Center for the Arts (Banda El Limón Aug 15, Jesse & Joy Sept 11, Fey Mar 27, 2026), Palladium Nightclub, Mancini Bowl (Latin Music & Dance Festival), John Thurman Field (Corridos Fest 2025), State Theatre. Home of Modesto Sound.',0],
+['Patterson','Stanislaus County','Hometown of Eslabon Armado (formed 2017).',0],
+['Turlock','Stanislaus County','Stanislaus County Fairgrounds hosts corridos and banda bills (Los Caimanes de Sinaloa, Los Austeros de Durango, Arley Pérez, Grupo Recluta, Banda Toro) plus the July county fair. Part of the 1980s–90s grupero club circuit.',1],
+['Gustine','Merced County','Plaza de Toros Monumental de Gustine hosts jaripeos and banda shows (e.g., Banda El Recodo).',0],
+['Merced / Atwater / Livingston','Merced County','Merced County Fair (June) closes with Jaripeo Tremendo. Historic grupero clubs; Los Kinos came from Livingston.',0],
+['Fresno','Fresno County','The Valley\'s biggest market: Save Mart Center, Chukchansi Park, William Saroyan Theatre, Rainbow Ballroom, Toro Bravo Arena (jaripeo-bailes), Los Arcos Nightclub, Memorial Auditorium. The Valley Fest (Fresno edition, June 2025) and the Big Fresno Fair (October).',0],
+['Delano / Visalia','Kern and Tulare','Mariachi Mestizo (Delano, 25 years). Tulare County is about two-thirds Latino.',0],
+['Bakersfield','Kern County','Dignity Health Arena hosts arena tours (Fuerza Regida Oct 24, 2026; a corridos tour stop Oct 16). Kern County Fair runs late September to early October.',0]];
+$('vroute').innerHTML=route.map(([c,co,d,y])=>`<div class="stop${y?' you':''}"><b>${c}</b>${y?'<span class="youtag">You are here</span>':''} <span class="meta">· ${co}</span><p>${d}</p></div>`).join('');
+tbl('vshows',[
+['Oct 28, 2026','Fuerza Regida','Save Mart Center','Fresno'],
+['Oct 24, 2026','Fuerza Regida','Dignity Health Arena','Bakersfield'],
+['Oct 16, 2026','Corridos arena tour (listed by Hypebot)','Dignity Health Arena','Bakersfield'],
+['Sept 26, 2026','Eslabon Armado, Amor Nocturno Tour','William Saroyan Theatre','Fresno'],
+['Sept 26, 2026','Corridos arena tour (listed by Hypebot)','Adventist Health Arena','Stockton'],
+['Sept 11, 2026','Jesse & Joy','Gallo Center for the Arts','Modesto'],
+['Aug 15, 2026','La Original Banda El Limón','Gallo Center for the Arts','Modesto'],
+['Aug 7, 2026','Gerardo Coronel','Palladium Nightclub','Modesto'],
+['Mar 27, 2026','Fey','Gallo Center for the Arts','Modesto'],
+['Mar 11, 2026','Peso Pluma with Tito Double P','Save Mart Center','Fresno'],
+['Jun 21, 2025','The Valley Fest (Los Tucanes de Tijuana, Eslabon Armado and more)','Fresno edition','Fresno']]);
+const cal=[
+['Feb–Mar',['Expo Quinceañera Show, San Joaquin County Fairgrounds (Stockton)','Spring shows at the Gallo Center (Modesto)']],
+['April–May',['Merced County Spring Fair, Los Banos (Apr 29–May 3)','Chowchilla-Madera County Fair (May 7–10)','Corridos Fest, Modesto (May 2025 edition)']],
+['June',['Merced County Fair (Jun 10–14), closing with Jaripeo Tremendo','Jaripeo-bailes at Toro Bravo Arena, Fresno (Jun 14, Jun 20)','Kings Fair, Hanford (Jun 25–28)','The Valley Fest, Fresno (Jun 2025 edition)']],
+['July',['Stanislaus County Fair, Turlock (mid-July)']],
+['Aug–Sept',['Banda El Limón, Gallo Center (Aug 15)','Toro Bravo Arena jaripeo (Sept 5)','Madera District Fair (Sept 10–13)','Mexican Independence events (mid-Sept)','Kern County Fair, Bakersfield (Sept 23–Oct 4)','Modesto Latin Music & Dance Festival, Mancini Bowl (fall)']],
+['Oct–Nov',['Toro Bravo Arena jaripeo (Oct 3)','Big Fresno Fair (Oct 7–18)','Arena tours in Fresno and Bakersfield']]];
+$('vcal').innerHTML=cal.map(([m,items])=>`<div class="month"><h4>${m}</h4><ul>${items.map(i=>`<li>${esc(i)}</li>`).join('')}</ul></div>`).join('');
+tbl('vradio',[
+['<b>La Explosiva 107.5</b> (KOND, Hanford)','Spanish classic hits','Latino Media Network; rebranded from "La Jefa" in Dec 2024'],
+['<b>92.1 Enamorada</b> (KRDA, Clovis)','Spanish AC','Latino Media Network; formerly "Amor 92.1"'],
+['<b>La Picosa 107.9</b> (KLLE)','Regional Mexican','Latino Media Network; formerly "Zona MX"; share fell 1.7 → 0.7 (Dec 2025–Mar 2026)'],
+['<b>KKBZ</b>','Spanish hits','Lotus Communications; 0.6 → 0.8 over the same months'],
+['<b>98.5 KTJM</b>','Regional Mexican','Fresno-area listing'],
+['<b>Radio Bilingüe</b> (KSJV)','Spanish public radio','Fresno-based; partner on Canciones del San Joaquín'],
+['<b>KUFW</b>','Regional Mexican','Chavez Radio Group'],
+['<b>980 AM KQUE</b>','Spanish Christian','Fresno-area listing']]);
+tbl('vart',[
+['<b>Eslabon Armado</b>','Patterson','Sad sierreño / corridos','Formed 2017 by brothers Pedro and Brian Tovar; "Ella Baila Sola" with Peso Pluma made música mexicana chart history'],
+['<b>Los Reales del Norte</b>','Stanislaus County','Norteño','Accordionist Marlene Dolores DeHerrera joined her father\'s band at 16 and learned its 24-album catalog'],
+['<b>Súbale</b> (Tony Osegueda Jr.)','Modesto','Latin dance','Played the Modesto Latin Music & Dance Festival'],
+['<b>Los Fresnanitos</b>','Fresno','Son jarocho','"La Bamba para el Valle," a tribute to campesino heritage'],
+['<b>Mariachi Mestizo</b>','Delano','Mariachi','25 years of music'],
+['<b>La Migra</b>','Stockton','Grupero','Classic 1980s–90s Valley band'],
+['<b>Los Kinos</b>','Livingston','Grupero','Classic Merced-area band; singer Adolfo Sanchez']]);
+tbl('vopp',[
+['<b>Valley music channel or news</b>','Big tours stop here, but few outlets cover the local scene; the Fresno Bee and KVPR do occasional features','Cover one fairgrounds or Gallo Center show a month; post clips with #209 and #559'],
+['<b>Bailes and jaripeos coverage</b>','Promoters sell almost entirely on TikTok and Instagram; good video helps them sell tickets','Offer recap videos to a promoter in exchange for access'],
+['<b>Affordable all-ages events</b>','Residents say young people lack outlets and shows cost too much','Partner with a church, school or Modesto Sound on a youth showcase'],
+['<b>Music services for local artists</b>','92.8% of corridos artists are independent and need clips, rollouts and social help','Package release clips and social management for 2–3 local acts'],
+['<b>Christian and bilingual music</b>','Spanish Christian radio exists, but little online coverage of Valley worship music','A weekly worship clip series and a multi-church event'],
+['<b>Documenting the scene</b>','Modesto Sound and Lirios En El Valle show there\'s interest in Valley music stories','Short interviews with local musicians, in Spanish and English']]);
+const vsrc=[
+['Fresno Bee: why big Latin acts keep coming to Fresno','https://www.aol.com/biggest-latin-mexican-music-acts-123000760.html'],
+['The Signal (CSU Stanislaus): Modesto Sound documentary','https://csusignal.com/?p=20469'],
+['KVPR: Merced\'s grupero music scene','https://www.kvpr.org/arts-culture/2026-04-28/how-mexican-american-workers-built-merceds-vibrant-grupero-music-scene'],
+['Lirios En El Valle (film)','https://thestate.org/films/lirios-en-el-valle-092026/'],
+['Census QuickFacts: Hispanic share by county','https://census.gov/quickfacts/geo/chart/sanluisobispocountycalifornia,sierracountycalifornia,imperialcountycalifornia/RHI725223'],
+['CA Dept. of Finance: Tulare County 2020 Census profile','https://dof.ca.gov/media/docs/forecasting/Demographics/2020-census-data/2020Census_PL942020_Profile_Calif_Tulare.pdf'],
+['CA Office of Community Partnerships: northern Central Valley snapshot','https://ocpsc.ca.gov/wp-content/uploads/2025/05/OCPSC-2025Snapshots-043025-Region4.pdf'],
+['Radio Online: Fresno ratings','https://ratings.radio-online.com/content/arb089'],
+['RadioInsight: Latino Media Network rebrands Fresno stations','https://radioinsight.com/headlines/290560/latino-media-network-rebrands-stations-in-las-vegas-fresno-rio-grande-valley/'],
+['Hypebot: corridos report and 2026 tour stops','https://www.hypebot.com/where-to-see-the-top-corridos-artists-perform-in-2026/'],
+['The Signal: Peso Pluma Dinastía tour in Fresno','https://csusignal.com/?p=19615'],
+['Remezcla: The Valley Fest 2025','https://remezcla.com/?p=432833'],
+['Turlock Journal: Merced County Fair 2026','https://www.turlockjournal.com/news/local/merced-county-fair-expands-entertainment-lineup-and-savings-for-2026-return/'],
+['CDFA: California fair dates 2026','https://www.cdfa.ca.gov/fairs_&_expositions/Fair_Information/Fair_Dates_and_Information.asp'],
+['Songkick: Stanislaus County Fairgrounds, Turlock','https://app.songkick.com/venues/93794-stanislaus-county-fairgrounds'],
+['ConcertFix: Modesto Latin concerts','https://concertfix.com/concerts/modesto-ca+latin'],
+['Bandsintown: Modesto-area Latin shows','https://bandsintown.com/c/modesto-ca/all-dates/genre/latin'],
+['Eventbrite: Modesto Latin Music & Dance Festival','https://www.eventbrite.com/e/modesto-latin-music-dance-festival-tickets-1339263987639'],
+['ACTA: Canciones del San Joaquín','https://actaonline.org/canciones-del-san-joaquin/'],
+['ACTA: Los Fresnanitos','https://soundsofca.actaonline.org/stories/los-fresnanitos-2'],
+['KVPR: Delano\'s Mariachi Mestizo at 25','https://www.kvpr.org/podcast/central-valley-daily/2026-01-01/jan-1-delanos-mariachi-mestizo-celebrates-25-years-of-music-encore'],
+['Eslabon Armado (Wikiwand)','https://wikiwand.com/en/articles/Eslabon_Armado']];
+$('vsrc').innerHTML=vsrc.map(([t,u])=>`<li><a href="${esc(u)}">${esc(t)}</a></li>`).join('');
+
 /* tabs */
-const panels={report:$('p-report'),growth:$('p-growth')};
+const panels={report:$('p-report'),growth:$('p-growth'),valley:$('p-valley')};
 function show(k){for(const p in panels){panels[p].hidden=p!==k;$('t-'+p).setAttribute('aria-selected',p===k)}}
-$('t-report').addEventListener('click',()=>show('report'));
-$('t-growth').addEventListener('click',()=>show('growth'));
-const tabFor=el=>el&&el.closest('#p-growth')?'growth':'report';
+for(const k in panels)$('t-'+k).addEventListener('click',()=>show(k));
+const tabFor=el=>el&&el.closest('#p-growth')?'growth':el&&el.closest('#p-valley')?'valley':'report';
+$('vOpen').addEventListener('click',()=>setAll(panels.valley,true));
+$('vClose').addEventListener('click',()=>setAll(panels.valley,false));
 
 /* controls */
 const setAll=(panel,v)=>panel.querySelectorAll('details.sec').forEach(d=>d.open=v);
