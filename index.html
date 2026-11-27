@@ -119,6 +119,10 @@ ol li,ul li{margin-bottom:6px}
 .month h4{margin:0 0 6px;font:700 15px Archivo,sans-serif;color:var(--rosa)}
 .month ul{margin:0;padding-left:18px}
 .spark{display:flex;align-items:flex-end;gap:3px;height:34px;width:96px}.spark i{flex:1;background:var(--s1);border-radius:2px 2px 0 0;min-height:2px}.spark i.na{background:transparent;border-bottom:2px dotted var(--line)}.spark i.last{background:var(--rosa)}
+.achip{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:4px 12px 4px 8px;margin:0 6px 6px 0;border-radius:999px;background:var(--track);color:var(--ink);text-decoration:none;font-size:14px;font-weight:600}
+.achip::before{content:"";width:0;height:0;border-left:8px solid var(--rosa);border-top:5px solid transparent;border-bottom:5px solid transparent;margin-left:4px}
+.achip:hover{background:color-mix(in srgb,var(--rosa) 18%,var(--track))}.achip:focus-visible{outline:3px solid var(--s1);outline-offset:2px}
+.gexcard h4{margin:0 0 4px;font:700 15px Archivo,sans-serif}.gexcard p{margin:0 0 8px;font-size:13px;color:var(--muted)}
 .checks label{display:flex;gap:10px;align-items:center;min-height:40px;font-size:15px}
 .checks input{width:20px;height:20px;accent-color:var(--rosa)}
 @media(max-width:700px){.flow{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.step:nth-child(2)::after{content:none}.phases{grid-template-columns:minmax(0,1fr)}}
@@ -245,6 +249,9 @@ pre,.scroll{overflow-x:auto}html{scroll-padding-top:72px}
 <details class="sec" id="genres"><summary><div class="sumtext"><h2>Trending genres and styles</h2><span class="lead">Corridos remain the engine; English and bilingual heritage sounds grow fastest.</span></div><span class="chev">›</span></summary><div class="body">
  <h3>Momentum board</h3>
  <div class="mom" id="mom"></div>
+ <h3>Genre explorer: 5 artists to hear in each style</h3>
+ <p style="margin:0">Tap a name to open that artist on YouTube Music (it opens a search, and their channel is usually the top result).</p>
+ <div class="months" id="gex"></div>
  <div class="scroll"><table class="stack"><thead><tr><th>Genre / style</th><th>Status (late 2026)</th><th>Evidence and notes</th></tr></thead><tbody id="gen"></tbody></table></div>
  <ul style="margin-top:16px">
   <li>Corridos remain the commercial engine, but the edge is shifting from glorifying violence toward romantic, introspective and "motivational" themes, partly artistic evolution and partly risk management.</li>
@@ -671,6 +678,24 @@ const src=[
 ['Modesto Latin Music & Dance Festival','https://modestodancefest.com/'],
 ['JamBase: Latin concerts in the SF Bay Area','https://www.jambase.com/concerts/us/california/latin-concerts-in-san-francisco-bay-area']];
 $('src').innerHTML=src.map(([t,u])=>`<li><a href="${esc(u)}">${esc(t)}</a></li>`).join('');
+
+/* genre explorer */
+const ytm=n=>'https://music.youtube.com/search?q='+encodeURIComponent(n);
+const gex=[
+['Corridos tumbados / bélicos','Trap-influenced corridos, the genre\'s commercial engine',['Peso Pluma','Fuerza Regida','Natanael Cano','Junior H','Tito Double P']],
+['Sad sierreño / romantic música mexicana','Guitar-led heartbreak songs, big with Gen Z',['Iván Cornejo','Eslabon Armado','DannyLux','Xavi','Gael Valenzuela']],
+['Banda / norteño','The bailes and jaripeo core',['Grupo Frontera','Grupo Firme','Banda MS','Carín León','Los Tigres del Norte']],
+['Mariachi / mariacheño','Mariachi tradition, modernized',['Christian Nodal','Ángela Aguilar','Majo Aguilar','Alejandro Fernández','Mariachi Vargas de Tecalitlán']],
+['Reggaeton / urbano','Superstar-level reggaeton and Latin trap',['Bad Bunny','Karol G','Feid','Rauw Alejandro','Young Miko']],
+['Latin pop','Arena-size pop in Spanish',['Shakira','Morat','Sebastián Yatra','Danny Ocean','Jesse & Joy']],
+['Rock en español / Latin alternative','Legacy rock that still sells out',['Maná','Caifanes','Los Fabulosos Cadillacs','Molotov','Zoé']],
+['Cumbia','From sonidero to cumbia pop',['Los Ángeles Azules','Estevie','Tropa Magica','Los Hermanos Flores','La Sonora Dinamita']],
+['Chicano soul / oldies revival','Sweet soul, sung mostly in English',['Thee Sinseers','Thee Sacred Souls','The Charities','Chicano Batman','Los Retros']],
+['English-language and bilingual Latino indie / R&B','Latino artists singing in English or both',['The Marías','Not for Radio','Kali Uchis','Omar Apollo','Cuco']],
+['Bachata / salsa','Social-dance favorites',['Romeo Santos','Aventura','Prince Royce','Marc Anthony','Grupo Niche']],
+['Chicano rap / Latin hip-hop','West Coast hip-hop with Latino roots',['Santa Fe Klan','Snow Tha Product','Los Rakas','OhGeesy','Fashawn']],
+['Música cristiana / worship','Spanish-language worship and gospel',['Marcos Witt','Christine D\'Clario','Marcela Gándara','Miel San Marcos','Evan Craft']]];
+$('gex').innerHTML=gex.map(([g,d,a])=>`<div class="month gexcard"><h4>${esc(g)}</h4><p>${esc(d)}</p>${a.map(n=>`<a class="achip" href="${ytm(n)}" target="_blank" rel="noopener" title="Open ${esc(n)} on YouTube Music">${esc(n)}</a>`).join('')}</div>`).join('');
 
 /* growth tab */
 $('ctype').innerHTML=[['Trend content','Most reach and new followers','var(--s1)'],['Music content','Strongest engagement rate','var(--rosa)'],['Identity content','Most watched to the end','var(--s3)']].map(([n,d,c])=>`<div style="border-left:4px solid ${c};padding:6px 12px"><b>${n}</b><br><span style="font-size:14px;color:var(--muted)">${d}</span></div>`).join('');
