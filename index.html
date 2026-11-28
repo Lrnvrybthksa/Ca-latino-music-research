@@ -1252,12 +1252,90 @@ const RAD=[
 ['San Jose',37.34,-121.89,376400,1639200,'Amor 100.3 KBRG (6.8)'],
 ['Stockton',37.96,-121.29,268600,666800,'La Tricolor KMIX (2.8)'],
 ['Modesto',37.64,-121.0,219800,461600,'Fuego KCVR (2.5)']];
-let layer='artists',zoom='state',sel=null;
+const EVT=[
+['Big Fresno Fair','Fresno',36.728,-119.740,'Oct 7–18, 2026','yearly','600,000+ visitors a year; Una Noche de Mariachi (Oct 11) and Los Tigres del Norte closing night (Oct 18)'],
+['Stanislaus County Fair','Turlock',37.49,-120.85,'July (yearly)','yearly','Free banda and corridos nights on the free stage, e.g. Banda El Mexicano (Jul 12, 2026)'],
+['Merced County Fair','Merced',37.30,-120.48,'Jun 10–14, 2026','yearly','Closes with Jaripeo Tremendo'],
+['Kern County Fair','Bakersfield',35.33,-119.00,'Sept 23–Oct 4, 2026','yearly','Late-summer fair'],
+['Guelaguetza Fresno','Fresno City College',36.766,-119.797,'Sept 27, 2026','yearly','26th year; free Oaxacan dance, music and food (CBDIO)'],
+['Madera Guelaguetza','Madera',36.96,-120.06,'Canceled 2025; postponed Oct 2026','canceled','Organizers cited safety amid immigration enforcement'],
+['Toro Bravo Arena jaripeo-bailes','Fresno',36.86,-119.80,'Jun 14, Jun 20, Sept 5, Oct 3, 2026','held','Nieto Entertainment; kids under 12 often free'],
+['Cala Gala and Plaza Paz','Arte Américas, Fresno',36.737,-119.784,'Día de Muertos (yearly)','yearly','About four decades running; 3,000+ attendees'],
+['Modesto Latin Music & Dance Festival','Mancini Bowl, Modesto',37.66,-121.00,'Fall (yearly)','yearly','Salsa and bachata focus'],
+['Corridos Fest','John Thurman Field, Modesto',37.63,-121.01,'May 24, 2025','unconfirmed','2026 edition not confirmed'],
+['Festival del Mariachi','Fox Theater, Bakersfield',35.374,-119.022,'Oct 25, 2025','held','Mariachi Sol de México de José Hernández, Mercedes Castro'],
+['Lirios En El Valle premiere','State Theatre, Modesto',37.639,-120.996,'Sept 4, 2026','held','Documentary on Stanislaus County\'s regional Mexican musicians'],
+['BelicoFest LA','BMO Stadium, Los Angeles',34.013,-118.285,'Jul 12, 2026','held','17,500+ fans; Tito Double P headlined'],
+['Corridos Summer Fest','Pico Rivera Sports Arena',33.995,-118.09,'Jul 11, 2026','held','Lealtad Records; free for young kids'],
+['Lumbre & Corridos Fest','Gardena',33.89,-118.31,'May 9, 2026','held','Arena-size corridos show'],
+['Bésame Mucho','Dodger Stadium, Los Angeles',34.074,-118.24,'Dec 2024','canceled','Not back in LA since'],
+['Coachella','Indio',33.68,-116.24,'Apr 10–19, 2026','held','Karol G, the first Latina headliner'],
+['BelicoFest San José','PayPal Park, San Jose',37.351,-121.925,'Aug 29, 2026','canceled','Canceled Aug 21; no reason given'],
+['Festival La Onda','Napa Valley Expo',38.293,-122.287,'May 30–31, 2026','canceled','Canceled Feb 23; ~70,000 attended in 2024'],
+['Carnaval San Francisco','Mission District, SF',37.76,-122.42,'Late spring (yearly)','yearly','Historic Mission celebration'],
+['Jalo Fest','Capitol Mall, Sacramento',38.576,-121.50,'Aug 30–31, 2025','unconfirmed','Sacramento\'s first Latin music festival; 2026 edition unconfirmed'],
+['California State Fair','Cal Expo, Sacramento',38.595,-121.43,'July (yearly)','yearly','Latin nights on the concert stage'],
+['Baja Beach Fest','Rosarito, B.C. (just south of the border)',32.56,-117.06,'Aug 7–9, 2026','held','World\'s largest reggaeton festival; Anuel AA, Junior H, Ozuna']];
+const STC={held:'var(--up)',canceled:'var(--down)',yearly:'var(--s1)',unconfirmed:'var(--muted)'};
+const STN={held:'Held',canceled:'Canceled or postponed',yearly:'Yearly / upcoming',unconfirmed:'Unconfirmed'};
+const TOURS=[
+['Marco Antonio Solís · Tour Gratitud 2026','var(--rosa)',[['Sacramento',38.58,-121.50,'Sept 25'],['San Jose',37.333,-121.901,'Sept 26'],['Chula Vista',32.588,-117.009,'Oct 2'],['Long Beach',33.77,-118.19,'Oct 4'],['Fresno',36.81,-119.74,'Oct 9'],['Highland',34.138,-117.218,'Oct 10']]],
+['Fuerza Regida · This Is Our Dream 2026','var(--s1)',[['San Diego (Petco Park)',32.707,-117.157,'Jun 18'],['San Francisco (Oracle Park)',37.778,-122.389,'Jun 20'],['Los Angeles (Dodger Stadium)',34.074,-118.24,'Jul 18'],['Bakersfield',35.374,-119.019,'Oct 24'],['Fresno',36.81,-119.74,'Oct 28']]],
+['Eslabon Armado · Amor Nocturno 2026–27','var(--s3)',[['Inglewood (YouTube Theater)',33.95,-118.34,'Aug 7'],['Fresno',36.733,-119.79,'Sept 26'],['San Francisco (Fillmore)',37.784,-122.433,'Sept 27'],['Wheatland (Hard Rock Live)',39.006,-121.44,'Oct 8'],['San Diego (SOMA)',32.75,-117.21,'Dec 5'],['Ontario (Toyota Arena)',34.074,-117.565,'Feb 11, 2027']]],
+['Los Temerarios · Hasta Siempre farewell (California)','var(--s4)',[['San Diego',32.72,-117.16,'Sept 15, 2023'],['Anaheim',33.808,-117.877,'Nov 4, 2023'],['Los Angeles (BMO)',34.013,-118.285,'Jun 15, 2024'],['San Jose',37.333,-121.901,'Jul 26–27, 2024'],['Sacramento',38.58,-121.50,'Aug 2024'],['Anaheim',33.808,-117.877,'Nov 2024'],['Los Angeles (BMO)',34.013,-118.285,'Dec 6–8, 2024']]]];
+const GCAT={c:['Corridos & sierreño','var(--rosa)'],b:['Banda, norteño & grupero','var(--s2)'],m:['Mariachi & folk','var(--s3)'],s:['Soul, indie & rock','var(--s1)'],h:['Hip-hop & pop','var(--s4)'],d:['Cumbia & dance','light-dark(#b8860b,#e0b33a)']};
+const AG={'The Marías':'s','Los Lobos':'s','Chicano Batman':'s','Ozomatli':'s','Tropa Magica':'d','Spaghetti Cumbia':'d','Thee Sinseers':'s','Becky G':'h','El Compa Negro':'b','Chiquis':'b','Lupillo Rivera':'b','Natanael Cano':'c','Junior H':'c','Legado 7':'c','Gerardo Ortiz (born here)':'c','Fuerza Regida':'c','Chino Pacas':'c','Armenta':'c','Chuyin':'c','Ángel Tumbado':'c','Iván Cornejo':'c','DannyLux':'c','Thee Sacred Souls':'s','Clave Especial':'c','Los Tigres del Norte':'b','Snow Tha Product':'h','Los Rakas':'h','Mxka':'c','La Doña':'d','Carlos Santana (raised in the Mission)':'s','Los Cenzontles':'m','Herencia de Patrones':'c','Sol Peligro':'d','Mariachi Las Colibrí':'m','La Migra':'b','Eslabon Armado':'c','Los Reales del Norte':'b','Súbale':'d','Los Kinos':'b','Fashawn':'h','Los Fresnanitos':'m','Mariachi Monarca':'m','Las Damas del Valle':'b','Mariachi Mestizo':'m'};
+const POL=[
+['Kern County: "Operation Return to Sender"','Bakersfield area',35.37,-119.02,'Jan 7–9, 2025','Border Patrol made 78 arrests; a Mercado Latino manager said ~30% of businesses closed one day. A federal judge granted a preliminary injunction on Apr 29, 2025.'],
+['Glass House Farms raids','Camarillo',34.216,-119.04,'Jul 10, 2025','Raids in Camarillo and Carpinteria; farmworker Jaime Alanís García died after a fall; DHS said at least 361 arrests.'],
+['Glass House Farms raids','Carpinteria',34.40,-119.52,'Jul 10, 2025','Second raid site, same day.'],
+['Madera Guelaguetza canceled','Madera',36.96,-120.06,'Jun 2025; Oct 2026','Canceled for safety in 2025 and postponed again in Oct 2026.'],
+['Swap meet raid postpones a concert','Santa Fe Springs',33.94,-118.06,'Jun 2025','An ICE raid at the swap meet postponed a regional Mexican concert.'],
+['Downtown curfew cancels Fly High Fest','Peacock Theater, Los Angeles',34.045,-118.267,'Jun 13, 2025','Curfew during protests over immigration raids.'],
+['July 4 events canceled','Cudahy, Bell Gardens, Huntington Park',33.965,-118.18,'Jul 2025','Majority-Latino cities canceled concerts and July 4 events over raid fears.'],
+['Grupo Firme visa withdrawal','Napa (Festival La Onda)',38.293,-122.287,'Jun 1, 2025','Visas under "administrative review"; the band canceled its set.'],
+['Jalo Fest lineup hit by visas','Sacramento',38.576,-121.50,'2025','The promoter replaced acts after visa problems and lost early ticket sales.']];
+const EDU=[
+['Fresno State','Fresno',36.813,-119.746,'Mariachi Orgullo de Fresno State, a mariachi course, and a Mariachi Festival'],
+['Roosevelt High School','Fresno',36.742,-119.765,'El Mariachi de Mi Tierra, since 1989'],
+['Arte Américas','Fresno',36.735,-119.786,'Latino cultural center; Cala Gala and Plaza Paz'],
+['CBDIO','Fresno',36.75,-119.80,'Organizes Guelaguetza Fresno'],
+['CSU Bakersfield','Bakersfield',35.35,-119.10,'Its first-ever mariachi ensemble'],
+['Bakersfield College','Bakersfield',35.41,-118.97,'Mariachi Club since fall 2024'],
+['Arvin High School','Arvin',35.21,-118.83,'High school mariachi (Prop 28 arts funding in Kern schools)'],
+['Modesto Sound','Modesto',37.645,-121.005,'Nonprofit studio and youth music and media training'],
+['SJSU / Mariachi San José','San Jose',37.335,-121.881,'University mariachi program'],
+['Mexican Heritage Plaza','East San Jose',37.35,-121.85,'School of Arts and Culture'],
+['Los Cenzontles Mexican Arts Center','San Pablo',37.96,-122.35,'Mexican roots music center'],
+['Mission Cultural Center for Latino Arts','San Francisco',37.75,-122.418,'Mission District arts center'],
+['Mariachi Festival de Sacramento','Sacramento',38.58,-121.49,'Organized by singer Dinorah Klingler'],
+['LA Plaza de Cultura y Artes','Los Angeles',34.057,-118.238,'Mexican American history and culture center'],
+['Mariachi Plaza','Boyle Heights',34.047,-118.219,'Historic gathering place for mariachis'],
+['Self Help Graphics','East LA',34.035,-118.20,'Chicano arts center'],
+['UCLA Mariachi de Uclatlán','Westwood',34.07,-118.44,'University mariachi'],
+['MICOP','Oxnard',34.197,-119.177,'Indigenous community organization; runs Radio Indígena 94.1']];
+const MED=[
+['Los Angeles',34.05,-118.24,['107.5 Amor KLVE (Spanish AC)','97.9 La Raza KLAX (regional Mexican)','Que Buena KBUE (regional Mexican)','Univision 34','Telemundo 52']],
+['San Francisco',37.77,-122.42,['93.3 La Raza KRZZ (regional Mexican)','Que Buena KSOL (regional Mexican)','Latino Mix KVVF (Spanish hits)']],
+['San Jose',37.34,-121.89,['Amor 100.3 KBRG (Spanish AC)','Que Buena KSOL/KSQL (regional Mexican)','Radio Lazer 93.7 KXZM (regional Mexican)']],
+['Sacramento',38.58,-121.49,['Fuego 101.9 KHHM (bilingual)','La Ranchera 92.1/105.5 KVMX','Radio Lazer 94.3 KGRB','La Tricolor 99.9 KRCX','Univision 19 KUVS','Telemundo 33 KCSO']],
+['Stockton–Modesto',37.80,-121.15,['La Tricolor 100.9 KMIX (Tracy)','Fuego 98.9 KCVR','KTSE 97.1 (Patterson)','KBBU 93.9 (Modesto)','Radio Bilingüe KMPO (Modesto)','KLOC 1390 AM']],
+['Los Banos',37.06,-120.85,['KQLB 106.9 (regional Mexican)']],
+['Fresno',36.74,-119.79,['La Picosa 107.9 KLLE','La Explosiva 107.5 KOND','92.1 Enamorada KRDA','KKBZ (Spanish hits)','98.5 KTJM','Radio Bilingüe KSJV','KUFW','980 AM KQUE (Spanish Christian)','Univision 21 KFTV','Telemundo 51 KNSO','Daystar Español 49 KIFR']],
+['Bakersfield',35.37,-119.02,['Radio Lobo 102.9','La Caliente 96.9','La Mejor 94.9','La Campesina 92.5 KMYX','Univision 39 KABE','Telemundo (KKEY / KGET 17.3)']],
+['Oxnard',34.197,-119.177,['Radio Indígena 94.1 (Indigenous languages)','KOXR "La Mexicana" (ranchera)']]];
+let layer='artists',zoom='state',sel=null,gf='all',ts='0',LASTP=[];
 const Z={state:[0,0,GEO.W,GEO.H],socal:[275,535,235,165],la:[338,566,48,40],norcal:[75,180,170,170],valley:[135,250,215,265]};
 const shade=v=>{if(v==='50+')return 'color-mix(in srgb,var(--rosa) 62%,var(--bg))';if(v==null)return 'var(--track)';const t=v<20?18:v<30?32:v<40?46:v<50?60:v<60?76:92;return `color-mix(in srgb,var(--rosa) ${t}%,var(--bg))`};
 function countyFill(n){if(layer==='latino')return shade(pct[n]);if(layer==='regions'){const r=regOf[n];return r?`color-mix(in srgb,${REGINFO[r][1]} 70%,var(--bg))`:'var(--track)'}return 'color-mix(in srgb,var(--track) 80%,var(--card))'}
 function pts(){
- const f=(Z[zoom][2]/GEO.W);
+ const f=(Z[zoom][2]/GEO.W),F=Math.pow(f,.75);
+ if(layer==='events')return EVT.map((e,i)=>({i,lat:e[2],lon:e[3],r:5.5*F,c:STC[e[5]],label:e[0],title:e[0]+', '+e[1]}));
+ if(layer==='policy')return POL.map((e,i)=>({i,lat:e[2],lon:e[3],r:6*F,c:'var(--down)',label:e[1],title:e[0]}));
+ if(layer==='edu')return EDU.map((e,i)=>({i,lat:e[2],lon:e[3],r:5*F,c:'var(--s3)',label:e[0],title:e[0]+', '+e[1]}));
+ if(layer==='media')return MED.map((m,i)=>({i,lat:m[1],lon:m[2],r:(3+m[3].length*1.1)*F,c:'light-dark(#b8860b,#e0b33a)',label:m[0],title:m[0]+': '+m[3].length+' Spanish stations'}));
+ if(layer==='genres'){const out=[];ART.forEach(a=>{const L=a[3].filter(x=>gf==='all'||AG[x[0]]===gf);L.forEach((x,j)=>{const n=L.length,ang=2*Math.PI*j/n,dd=n>1?(2.5+n*.5)*F:0;const[ox,oy]=[Math.cos(ang)*dd,Math.sin(ang)*dd];out.push({lat:a[1]-oy/GEO.sc,lon:a[2]+ox/(GEO.k*GEO.sc),r:3.4*F,c:GCAT[AG[x[0]]||'s'][1],label:x[0].replace(/ \(.*\)/,''),title:x[0]+' · '+a[0],d:[x,a[0]]})})});out.forEach((p,i)=>p.i=i);LASTP=out;return out}
+ if(layer==='tours'){const out=[];TOURS.forEach((t,ti)=>(ts==='all'||+ts===ti)&&t[2].forEach((st,si)=>{const o=(ti-1.5)*1.6*F;out.push({lat:st[1],lon:st[2]+o/(GEO.k*GEO.sc),r:3.6*F,c:t[1],label:st[0]+' · '+st[3],title:t[0]+': '+st[0]+', '+st[3],d:[ti,si]})}));out.forEach((p,i)=>p.i=i);LASTP=out;return out}
  if(layer==='artists')return ART.map((a,i)=>({i,lat:a[1],lon:a[2],r:(4+a[3].length*1.6)*Math.pow(f,.75),c:'var(--rosa)',label:a[0],title:a[0]+': '+a[3].map(x=>x[0]).join(', ')}));
  if(layer==='venues')return VEN.map((v,i)=>({i,lat:v[2],lon:v[3],r:(v[4]?3+Math.sqrt(v[4])/18:5)*Math.pow(f,.75),c:v[4]?'var(--s1)':'var(--s3)',label:v[0],title:v[0]+', '+v[1]}));
  if(layer==='labels')return LAB.map((l,i)=>({i,lat:l[2],lon:l[3],r:5.5*Math.pow(f,.75),c:'var(--s4)',label:l[0],title:l[0]+' ('+l[1]+')'}));
@@ -1270,8 +1348,9 @@ function drawMap(){
  let h=GEO.c.map(([id,n,d])=>`<path class="cty" d="${d}" fill="${countyFill(n)}" data-c="${esc(n)}"><title>${esc(n)} County${pct[n]!=null?': '+pct[n]+'% Latino':''}</title></path>`).join('');
  if(layer==='regions')h+=Object.entries(REGINFO).map(([k,[n,c,la,lo]])=>{const[x,y]=proj(la,lo);return `<text x="${x}" y="${y}" font-size="${fs*1.15}" font-weight="700" stroke-width="${3*f}" text-anchor="middle">${esc(n)}</text>`}).join('');
  const P=pts();
+ if(layer==='tours'){const F=Math.pow(f,.75);h+=TOURS.map((t,ti)=>{if(ts!=='all'&&+ts!==ti)return '';const o=(ti-1.5)*1.6*F;return `<polyline fill="none" stroke="${t[1]}" stroke-width="${2*F}" stroke-opacity=".8" stroke-linejoin="round" points="${t[2].map(st=>{const[x,y]=proj(st[1],st[2]);return (x+o).toFixed(1)+','+y.toFixed(1)}).join(' ')}"/>`}).join('')}
  h+=P.map(p=>{const[x,y]=proj(p.lat,p.lon);return `<circle class="pt" tabindex="0" role="button" aria-label="${esc(p.title)}" data-i="${p.i}" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${p.r.toFixed(2)}" fill="${p.c}" fill-opacity=".85" stroke-width="${1.2*Math.pow(f,.75)}"><title>${esc(p.title)}</title></circle>`}).join('');
- if(zoom!=='state'||layer==='radio'){const placed=P.map(p=>{const[x,y]=proj(p.lat,p.lon);return [x-p.r,y-p.r,2*p.r,2*p.r,p]});h+=[...P].sort((a,b)=>b.r-a.r).map(p=>{const[x,y]=proj(p.lat,p.lon);const w=p.label.length*fs*.56,bx=x+p.r+2*f,by=y-fs*.6,bh=fs*1.2;
+ if(zoom!=='state'||layer==='radio'||(layer==='tours'&&ts!=='all')){const placed=P.map(p=>{const[x,y]=proj(p.lat,p.lon);return [x-p.r,y-p.r,2*p.r,2*p.r,p]});h+=[...P].sort((a,b)=>b.r-a.r).map(p=>{const[x,y]=proj(p.lat,p.lon);const w=p.label.length*fs*.56,bx=x+p.r+2*f,by=y-fs*.6,bh=fs*1.2;
   const hits=X=>placed.some(q=>q[4]!==p&&X<q[0]+q[2]&&X+w>q[0]&&by<q[1]+q[3]&&by+bh>q[1]);
   let X=bx,anchor='start',tx=bx;if(hits(X)){X=x-p.r-2*f-w;anchor='end';tx=x-p.r-2*f;if(hits(X))return ''}placed.push([X,by,w,bh]);
   return `<text x="${tx.toFixed(2)}" y="${(y+fs*.35).toFixed(2)}" font-size="${fs}" stroke-width="${2.5*f}" text-anchor="${anchor}">${esc(p.label)}</text>`}).join('')}
@@ -1286,17 +1365,32 @@ function legend(){
  else if(layer==='venues')h='<span><i style="background:var(--s1);border-radius:50%"></i>Size = capacity</span><span><i style="background:var(--s3);border-radius:50%"></i>Capacity not on site</span>';
  else if(layer==='labels')h='<span><i style="background:var(--s4);border-radius:50%"></i>Label, studio, promoter or media</span>';
  else if(layer==='radio')h='<span><i style="background:var(--s2);border-radius:50%"></i>Size = Hispanic radio audience (Nielsen)</span>';
+ if(layer==='events')h=Object.keys(STC).map(k=>`<span><i style="background:${STC[k]};border-radius:50%"></i>${STN[k]}</span>`).join('');
+ if(layer==='tours')h=TOURS.map(t=>`<span><i style="background:${t[1]}"></i>${esc(t[0])}</span>`).join('');
+ if(layer==='genres')h=Object.values(GCAT).map(([n,c])=>`<span><i style="background:${c};border-radius:50%"></i>${n}</span>`).join('');
+ if(layer==='policy')h='<span><i style="background:var(--down);border-radius:50%"></i>Enforcement or visa event that hit music or community events</span>';
+ if(layer==='edu')h='<span><i style="background:var(--s3);border-radius:50%"></i>School, program or cultural center</span>';
+ if(layer==='media')h='<span><i style="background:light-dark(#b8860b,#e0b33a);border-radius:50%"></i>Size = number of Spanish-language stations listed</span>';
  $('mleg').innerHTML=h;
+ const g=$('gfilter');if(g){g.hidden=!(layer==='genres'||layer==='tours');if(layer==='genres')g.innerHTML=[['all','All genres'],...Object.entries(GCAT).map(([k,[n]])=>[k,n])].map(([k,n])=>`<button class="mbtn" data-gf="${k}" aria-pressed="${k===gf}">${n}</button>`).join('');if(layer==='tours')g.innerHTML=[...TOURS.map((t,i)=>[String(i),t[0].split(' · ')[0]]),['all','All tours']].map(([k,n])=>`<button class="mbtn" data-ts="${k}" aria-pressed="${k===ts}">${esc(n)}</button>`).join('')}
 }
-const LAYERDESC={artists:'Artist hometowns and home bases. Tap a dot to see who\'s from there.',latino:'Hispanic or Latino share of each county\'s population (Census). Tap a county.',venues:'Big venues and their headline Latin shows, 2024–2027.',labels:'Labels, studios, promoters and media companies.',radio:'Nielsen radio markets sized by Hispanic audience, with the top Spanish station.',regions:'The regions this site covers. Tap one to open its tab.'};
+const LAYERDESC={artists:'Artist hometowns and home bases. Tap a dot to see who\'s from there.',latino:'Hispanic or Latino share of each county\'s population (Census). Tap a county.',venues:'Big venues and their headline Latin shows, 2024–2027.',labels:'Labels, studios, promoters and media companies.',radio:'Nielsen radio markets sized by Hispanic audience, with the top Spanish station.',regions:'The regions this site covers. Tap one to open its tab.',events:'Festivals, fairs and annual events: green = held, red = canceled or postponed, blue = yearly or upcoming, gray = unconfirmed.',tours:'Routes of four big tours through California. Pick a tour, then tap a stop for the date.',genres:'Artists colored by genre. Use the filter to show one genre at a time.',policy:'Where 2025–26 immigration enforcement and visa problems hit music and community events.',edu:'Mariachi programs, music training and cultural centers.',media:'Spanish-language radio and TV stations by market.'};
 function info(html){$('mapinfo').innerHTML=html}
 function pick(i){
- sel=i;
+ sel=i;if(pickX(i))return;
  if(layer==='artists'){const a=ART[i];info(`<h4>${esc(a[0])}</h4><ul>${a[3].map(([n,g])=>`<li><a href="${ytm(n.replace(/ \(.*\)/,''))}" target="_blank" rel="noopener">${esc(n)}</a> · ${esc(g)}</li>`).join('')}</ul><p class="note">Tap a name to open YouTube Music.</p>`)}
  if(layer==='venues'){const v=VEN[i];info(`<h4>${esc(v[0])}</h4><p style="margin:0">${esc(v[1])}${v[4]?' · capacity '+v[4].toLocaleString():''}</p><p style="margin:8px 0 0">${esc(v[5])}</p>`)}
  if(layer==='labels'){const l=LAB[i];info(`<h4>${esc(l[0])}</h4><p style="margin:0">${esc(l[1])}</p><p style="margin:8px 0 0">${esc(l[4])}</p>`)}
  if(layer==='radio'){const m=RAD[i];info(`<h4>${esc(m[0])} radio market</h4><p style="margin:0"><b>${m[3].toLocaleString()}</b> Hispanic listeners of ${m[4].toLocaleString()} (${(m[3]/m[4]*100).toFixed(1)}%)</p><p style="margin:8px 0 0">Spanish-language leader: ${esc(m[5])}</p>`)}
 }
+function pickX(i){
+ if(layer==='events'){const e=EVT[i];info(`<h4>${esc(e[0])}</h4><p style="margin:0">${esc(e[1])} · ${esc(e[4])}</p><p style="margin:6px 0 0"><span class="tag ${e[5]==='held'?'ok':e[5]==='canceled'?'x':'q'}">${STN[e[5]]}</span></p><p style="margin:8px 0 0">${esc(e[6])}</p>`);return true}
+ if(layer==='policy'){const e=POL[i];info(`<h4>${esc(e[0])}</h4><p style="margin:0">${esc(e[1])} · ${esc(e[4])}</p><p style="margin:8px 0 0">${esc(e[5])}</p>`);return true}
+ if(layer==='edu'){const e=EDU[i];info(`<h4>${esc(e[0])}</h4><p style="margin:0">${esc(e[1])}</p><p style="margin:8px 0 0">${esc(e[4])}</p>`);return true}
+ if(layer==='media'){const m=MED[i];info(`<h4>${esc(m[0])}</h4><ul>${m[3].map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`);return true}
+ if(layer==='genres'){const p=LASTP[i];if(!p)return true;const[x,city]=p.d;info(`<h4>${esc(x[0])}</h4><p style="margin:0">${esc(city)} · ${esc(x[1])}</p><p style="margin:6px 0 0"><span class="tag q">${GCAT[AG[x[0]]||'s'][0]}</span></p><p style="margin:8px 0 0"><a href="${ytm(x[0].replace(/ \(.*\)/,''))}" target="_blank" rel="noopener">Open on YouTube Music</a></p>`);return true}
+ if(layer==='tours'){const p=LASTP[i];if(!p)return true;const[ti,si]=p.d,t=TOURS[ti];info(`<h4>${esc(t[0])}</h4><ol style="margin:6px 0 0;padding-left:20px;font-size:14px">${t[2].map((st,k)=>`<li${k===si?' style="font-weight:700"':''}>${esc(st[0])} · ${esc(st[3])}</li>`).join('')}</ol>`);return true}
+ return false}
 function pickCounty(n){
  const r=regOf[n],v=pct[n];
  info(`<h4>${esc(n)} County</h4><p style="margin:0">${v!=null?'<b>'+v+'%</b> Hispanic or Latino':'No Latino share on this site yet'}</p>${r?`<p style="margin:8px 0 0">Region: ${REGINFO[r][0]}</p><button class="mbtn" style="margin-top:10px" data-go="${r}">Open ${REGINFO[r][0]} tab</button>`:''}`);
@@ -1309,13 +1403,20 @@ function list(){
  if(layer==='radio')items=RAD.map((m,i)=>[i,`<b>${esc(m[0])}</b> · ${m[3].toLocaleString()} Hispanic listeners`]).sort((a,b)=>RAD[b[0]][3]-RAD[a[0]][3]);
  if(layer==='latino')items=Object.entries(pct).sort((a,b)=>(parseFloat(b[1]))-(parseFloat(a[1]))).map(([n,v])=>['c:'+n,`<b>${esc(n)}</b> · ${v}%`]);
  if(layer==='regions')items=Object.entries(REGINFO).map(([k,[n]])=>['r:'+k,`<b>${n}</b> · ${REG[k].join(', ')}`]);
+ if(layer==='events')items=EVT.map((e,i)=>[i,`<b>${esc(e[0])}</b> · ${esc(e[4])} · ${STN[e[5]]}`]);
+ if(layer==='policy')items=POL.map((e,i)=>[i,`<b>${esc(e[0])}</b> · ${esc(e[1])}, ${esc(e[4])}`]);
+ if(layer==='edu')items=EDU.map((e,i)=>[i,`<b>${esc(e[0])}</b> · ${esc(e[1])}`]);
+ if(layer==='media')items=MED.map((m,i)=>[i,`<b>${esc(m[0])}</b> · ${m[3].length} stations`]);
+ if(layer==='genres')items=LASTP.map((p,i)=>[i,`<b>${esc(p.d[0][0])}</b> · ${esc(p.d[1])} · ${GCAT[AG[p.d[0][0]]||'s'][0]}`]);
+ if(layer==='tours')items=LASTP.map((p,i)=>[i,`<b>${esc(TOURS[p.d[0]][2][p.d[1]][3])}</b> · ${esc(TOURS[p.d[0]][2][p.d[1]][0])} · ${esc(TOURS[p.d[0]][0].split(' · ')[0])}`]);
  $('maplist').innerHTML=items.map(([i,t])=>`<button data-li="${i}">${t}</button>`).join('');
 }
 $('p-map').innerHTML=`<main><div class="body" style="padding-top:20px">
  <h2 style="font:800 clamp(24px,3vw,32px)/1.1 Archivo,sans-serif;margin:0 0 6px">California Latino music map</h2>
  <p style="margin:0 0 6px" id="mapdesc"></p>
- <div class="maptools" role="group" aria-label="Map layer">${[['artists','Artists'],['latino','Latino share'],['venues','Venues & shows'],['labels','Labels & companies'],['radio','Radio markets'],['regions','Regions']].map(([k,n])=>`<button class="mbtn" data-layer="${k}" aria-pressed="${k===layer}">${n}</button>`).join('')}</div>
+ <div class="maptools" role="group" aria-label="Map layer">${[['artists','Artists'],['genres','Genres'],['latino','Latino share'],['venues','Venues & shows'],['events','Festivals & events'],['tours','Tour routes'],['labels','Labels & companies'],['radio','Radio markets'],['media','Spanish radio & TV'],['edu','Mariachi & education'],['policy','Policy & raids'],['regions','Regions']].map(([k,n])=>`<button class="mbtn" data-layer="${k}" aria-pressed="${k===layer}">${n}</button>`).join('')}</div>
  <div class="maptools" role="group" aria-label="Zoom">${[['state','All California'],['norcal','Bay Area & Sacramento'],['valley','Central Valley'],['socal','Southern California'],['la','LA close-up']].map(([k,n])=>`<button class="mbtn" data-zoom="${k}" aria-pressed="${k===zoom}">${n}</button>`).join('')}</div>
+ <div class="maptools" id="gfilter" role="group" aria-label="Genre filter" hidden></div>
  <div class="mapgrid"><div class="mapbox"><svg id="camap" role="img" aria-label="Map of California"></svg><div class="mleg" id="mleg"></div></div>
  <div><div class="mapinfo" id="mapinfo"><h4>Tap a dot or county</h4><p style="margin:0">Details show up here. Use the zoom buttons to see crowded areas like LA up close, with labels.</p></div><div class="maplist" id="maplist"></div></div></div>
  <p class="note" style="font-size:13px;color:var(--muted);margin-top:14px">Dots are placed at city level and are approximate. Data comes from the other tabs on this site (Census, Nielsen, venue and news sources listed there). County outlines: U.S. Census via us-atlas.</p>
@@ -1325,6 +1426,8 @@ drawMap();
 $('p-map').addEventListener('click',e=>{
  const lb=e.target.closest('[data-layer]');if(lb){layer=lb.dataset.layer;$('p-map').querySelectorAll('[data-layer]').forEach(b=>b.setAttribute('aria-pressed',b===lb));$('mapdesc').textContent=LAYERDESC[layer];info('<h4>Tap a dot or county</h4><p style="margin:0">Details show up here.</p>');drawMap();return}
  const zb=e.target.closest('[data-zoom]');if(zb){zoom=zb.dataset.zoom;$('p-map').querySelectorAll('[data-zoom]').forEach(b=>b.setAttribute('aria-pressed',b===zb));drawMap();return}
+ const gb=e.target.closest('[data-gf]');if(gb){gf=gb.dataset.gf;drawMap();return}
+ const tb=e.target.closest('[data-ts]');if(tb){ts=tb.dataset.ts;drawMap();return}
  const go=e.target.closest('[data-go]');if(go){show(go.dataset.go);window.scrollTo(0,0);return}
  const c=e.target.closest('circle.pt');if(c){pick(+c.dataset.i);return}
  const ct=e.target.closest('path.cty');if(ct){pickCounty(ct.dataset.c);return}
