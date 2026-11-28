@@ -128,11 +128,18 @@ ol li,ul li{margin-bottom:6px}
 .mbtn[aria-pressed=true]{background:var(--rosa);border-color:var(--rosa);color:#fff}
 .mbtn:focus-visible{outline:3px solid var(--s1);outline-offset:2px}
 .mapgrid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:18px;align-items:start}
-.mapbox{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:8px}
+.mapbox{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:8px;position:relative}
+.zbtns{position:absolute;top:14px;right:14px;display:flex;flex-direction:column;gap:6px;z-index:2}
+.zbtns button{width:44px;height:44px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:700 22px/1 Inter,sans-serif;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.15)}
+.zbtns button:active{transform:scale(.95)}
+#camap{cursor:grab;user-select:none;-webkit-user-select:none}
+#camap .dot{pointer-events:none;stroke:var(--bg)}
+#camap .pt{fill:transparent;stroke:none}
+.zhint{font-size:12px;color:var(--muted);margin:4px 4px 0}
 #camap{width:100%;height:auto;display:block;max-height:78vh}
 #camap .cty{stroke:var(--bg);stroke-width:.8;cursor:pointer}
 #camap .cty:hover{opacity:.85}
-#camap .pt{cursor:pointer;stroke:var(--bg)}
+#camap .pt{cursor:pointer}
 #camap .pt:focus{outline:none;stroke:var(--ink);stroke-width:2}
 #camap text{font-family:Inter,sans-serif;fill:var(--ink);paint-order:stroke;stroke:var(--card);stroke-linejoin:round;pointer-events:none}
 .mapinfo{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;min-height:120px}
@@ -1417,13 +1424,14 @@ const GRS=[
 ['Terrace Theater','Long Beach',33.764,-118.19,'Theater','Miel San Marcos (Nov 7, 2026)'],
 ['Acrisure Arena','Palm Desert',33.80,-116.39,'Arena','Junior H (2024)'],
 ['North Island Credit Union Amphitheatre','Chula Vista',32.588,-117.009,'Amphitheater','Junior H (2024)']];
+let MV=null,RT=null;
 let layer='artists',zoom='state',sel=null,gf='all',ts='0',LASTP=[];
 const Z={state:[0,0,GEO.W,GEO.H],socal:[275,535,235,165],la:[338,566,48,40],norcal:[75,180,170,170],valley:[135,250,215,265]};
 const shade=v=>{if(v==='50+')return 'color-mix(in srgb,var(--rosa) 62%,var(--bg))';if(v==null)return 'var(--track)';const t=v<20?18:v<30?32:v<40?46:v<50?60:v<60?76:92;return `color-mix(in srgb,var(--rosa) ${t}%,var(--bg))`};
 const gshade=v=>{if(v==null)return 'var(--track)';const t=v<10?22:v<15?40:v<20?58:v<25?76:92;return `color-mix(in srgb,var(--s1) ${t}%,var(--bg))`};
 function countyFill(n){if(layer==='latino')return shade(pct[n]);if(layer==='growth')return gshade(grow[n]);if(layer==='regions'){const r=regOf[n];return r?`color-mix(in srgb,${REGINFO[r][1]} 70%,var(--bg))`:'var(--track)'}return 'color-mix(in srgb,var(--track) 80%,var(--card))'}
 function pts(){
- const f=(Z[zoom][2]/GEO.W),F=Math.pow(f,.75);
+ const f=(MV[2]/GEO.W),F=Math.pow(f,.75);
  if(layer==='christian')return CHR.map((e,i)=>({i,lat:e[2],lon:e[3],r:(e[4]==='hq'?7:e[4]==='tr'?3.6:5)*F,c:CHC[e[4]][1],label:e[4]==='tour'?e[1]:e[0].split(' · ').pop(),title:e[0]+', '+e[1]}));
  if(layer==='history')return HIS.map((e,i)=>({i,lat:e[3],lon:e[4],r:5*F,c:'var(--s4)',label:e[0],title:e[0]+': '+e[1]+' ('+e[2]+')'}));
  if(layer==='grass')return GRS.map((e,i)=>({i,lat:e[2],lon:e[3],r:6*F,c:'var(--s2)',label:e[0],title:e[0]+', '+e[1]}));
@@ -1440,14 +1448,15 @@ function pts(){
  return [];
 }
 function drawMap(){
- const svg=$('camap');svg.setAttribute('viewBox',Z[zoom].join(' '));
- const f=Z[zoom][2]/GEO.W,fs=(zoom==='state'?13:zoom==='la'?13:11)*f;
+ const svg=$('camap');if(!MV)MV=[...Z.state];svg.setAttribute('viewBox',MV.map(v=>v.toFixed(2)).join(' '));svg.style.touchAction=MV[2]<GEO.W*.97?'none':'pan-y';
+ const f=MV[2]/GEO.W,fs=(f>.6?13:12)*f,kpx=(svg.clientWidth||600)/MV[2];
  let h=GEO.c.map(([id,n,d])=>`<path class="cty" d="${d}" fill="${countyFill(n)}" data-c="${esc(n)}"><title>${esc(n)} County${pct[n]!=null?': '+pct[n]+'% Latino':''}</title></path>`).join('');
  if(layer==='regions')h+=Object.entries(REGINFO).map(([k,[n,c,la,lo]])=>{const[x,y]=proj(la,lo);return `<text x="${x}" y="${y}" font-size="${fs*1.15}" font-weight="700" stroke-width="${3*f}" text-anchor="middle">${esc(n)}</text>`}).join('');
  const P=pts();
  if(layer==='tours'){const F=Math.pow(f,.75);h+=TOURS.map((t,ti)=>{if(ts!=='all'&&+ts!==ti)return '';const o=(ti-1.5)*1.6*F;return `<polyline fill="none" stroke="${t[1]}" stroke-width="${2*F}" stroke-opacity=".8" stroke-linejoin="round" points="${t[2].map(st=>{const[x,y]=proj(st[1],st[2]);return (x+o).toFixed(1)+','+y.toFixed(1)}).join(' ')}"/>`}).join('')}
- h+=P.map(p=>{const[x,y]=proj(p.lat,p.lon);return `<circle class="pt" tabindex="0" role="button" aria-label="${esc(p.title)}" data-i="${p.i}" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${p.r.toFixed(2)}" fill="${p.c}" fill-opacity=".85" stroke-width="${1.2*Math.pow(f,.75)}"><title>${esc(p.title)}</title></circle>`}).join('');
- if(zoom!=='state'||layer==='radio'||(layer==='tours'&&ts!=='all')){const placed=P.map(p=>{const[x,y]=proj(p.lat,p.lon);return [x-p.r,y-p.r,2*p.r,2*p.r,p]});h+=[...P].sort((a,b)=>b.r-a.r).map(p=>{const[x,y]=proj(p.lat,p.lon);const w=p.label.length*fs*.56,bx=x+p.r+2*f,by=y-fs*.6,bh=fs*1.2;
+ h+=P.map(p=>{const[x,y]=proj(p.lat,p.lon);return `<circle class="dot" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${p.r.toFixed(2)}" fill="${p.c}" fill-opacity=".85" stroke-width="${1.2*Math.pow(f,.75)}"/>`}).join('');
+ h+=P.map(p=>{const[x,y]=proj(p.lat,p.lon);return `<circle class="pt" tabindex="0" role="button" aria-label="${esc(p.title)}" data-i="${p.i}" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${Math.max(p.r,11/kpx).toFixed(2)}"><title>${esc(p.title)}</title></circle>`}).join('');
+ if(f<.8||layer==='radio'||(layer==='tours'&&ts!=='all')){const placed=P.map(p=>{const[x,y]=proj(p.lat,p.lon);return [x-p.r,y-p.r,2*p.r,2*p.r,p]});h+=[...P].sort((a,b)=>b.r-a.r).map(p=>{const[x,y]=proj(p.lat,p.lon);const w=p.label.length*fs*.56,bx=x+p.r+2*f,by=y-fs*.6,bh=fs*1.2;
   const hits=X=>placed.some(q=>q[4]!==p&&X<q[0]+q[2]&&X+w>q[0]&&by<q[1]+q[3]&&by+bh>q[1]);
   let X=bx,anchor='start',tx=bx;if(hits(X)){X=x-p.r-2*f-w;anchor='end';tx=x-p.r-2*f;if(hits(X))return ''}placed.push([X,by,w,bh]);
   return `<text x="${tx.toFixed(2)}" y="${(y+fs*.35).toFixed(2)}" font-size="${fs}" stroke-width="${2.5*f}" text-anchor="${anchor}">${esc(p.label)}</text>`}).join('')}
@@ -1525,15 +1534,17 @@ $('p-map').innerHTML=`<main><div class="body" style="padding-top:20px">
  <div class="maptools" role="group" aria-label="Map layer">${[['artists','Artists'],['genres','Genres'],['latino','Latino share'],['growth','Latino growth'],['venues','Venues & shows'],['events','Festivals & events'],['tours','Tour routes'],['labels','Labels & companies'],['radio','Radio markets'],['media','Spanish radio & TV'],['edu','Mariachi & education'],['grass','Ballrooms & jaripeos'],['christian','Música cristiana'],['history','History'],['policy','Policy & raids'],['regions','Regions']].map(([k,n])=>`<button class="mbtn" data-layer="${k}" aria-pressed="${k===layer}">${n}</button>`).join('')}</div>
  <div class="maptools" role="group" aria-label="Zoom">${[['state','All California'],['norcal','Bay Area & Sacramento'],['valley','Central Valley'],['socal','Southern California'],['la','LA close-up']].map(([k,n])=>`<button class="mbtn" data-zoom="${k}" aria-pressed="${k===zoom}">${n}</button>`).join('')}</div>
  <div class="maptools" id="gfilter" role="group" aria-label="Genre filter" hidden></div>
- <div class="mapgrid"><div class="mapbox"><svg id="camap" role="img" aria-label="Map of California"></svg><div class="mleg" id="mleg"></div></div>
+ <div class="mapgrid"><div class="mapbox"><div class="zbtns"><button data-zb="in" aria-label="Zoom in">+</button><button data-zb="out" aria-label="Zoom out">−</button><button data-zb="reset" aria-label="Show all of California" style="font-size:17px">⟲</button></div><svg id="camap" role="img" aria-label="Map of California"></svg><p class="zhint">Pinch or scroll to zoom, drag to move, or use + and −. Tap a dot for details.</p><div class="mleg" id="mleg"></div></div>
  <div><div class="mapinfo" id="mapinfo"><h4>Tap a dot or county</h4><p style="margin:0">Details show up here. Use the zoom buttons to see crowded areas like LA up close, with labels.</p></div><div class="maplist" id="maplist"></div></div></div>
  <p class="note" style="font-size:13px;color:var(--muted);margin-top:14px">Dots are placed at city level and are approximate. Data comes from the other tabs on this site (Census, Nielsen, venue and news sources listed there). County outlines: U.S. Census via us-atlas.</p>
 </div></main>`;
 $('mapdesc').textContent=LAYERDESC[layer];
 drawMap();
 $('p-map').addEventListener('click',e=>{
+ if(DRAGGED&&e.target.closest('#camap')){DRAGGED=false;return}
+ const zbt=e.target.closest('[data-zb]');if(zbt){const a=zbt.dataset.zb;if(a==='reset'){MV=[...Z.state];zoom='state';$('p-map').querySelectorAll('[data-zoom]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.zoom==='state'));drawMap()}else zoomAt(a==='in'?.6:1/.6,.5,.5);return}
  const lb=e.target.closest('[data-layer]');if(lb){layer=lb.dataset.layer;$('p-map').querySelectorAll('[data-layer]').forEach(b=>b.setAttribute('aria-pressed',b===lb));$('mapdesc').textContent=LAYERDESC[layer];info('<h4>Tap a dot or county</h4><p style="margin:0">Details show up here.</p>');drawMap();return}
- const zb=e.target.closest('[data-zoom]');if(zb){zoom=zb.dataset.zoom;$('p-map').querySelectorAll('[data-zoom]').forEach(b=>b.setAttribute('aria-pressed',b===zb));drawMap();return}
+ const zb=e.target.closest('[data-zoom]');if(zb){zoom=zb.dataset.zoom;MV=[...Z[zoom]];$('p-map').querySelectorAll('[data-zoom]').forEach(b=>b.setAttribute('aria-pressed',b===zb));drawMap();return}
  const gb=e.target.closest('[data-gf]');if(gb){gf=gb.dataset.gf;drawMap();return}
  const tb=e.target.closest('[data-ts]');if(tb){ts=tb.dataset.ts;drawMap();return}
  const go=e.target.closest('[data-go]');if(go){show(go.dataset.go);window.scrollTo(0,0);return}
@@ -1541,6 +1552,27 @@ $('p-map').addEventListener('click',e=>{
  const ct=e.target.closest('path.cty');if(ct){pickCounty(ct.dataset.c);return}
  const li=e.target.closest('[data-li]');if(li){const v=li.dataset.li;if(v.startsWith('c:'))pickCounty(v.slice(2));else if(v.startsWith('r:')){const k=v.slice(2);pickCounty(REG[k][0])}else pick(+v);$('mapinfo').scrollIntoView({block:'nearest',behavior:'smooth'})}
 });
+let DRAGGED=false;
+function setView(v,now){const minW=GEO.W/45;let w=Math.min(Math.max(v[2],minW),GEO.W*1.05),h=w*v[3]/v[2];
+ let x=Math.min(Math.max(v[0],-w*.3),GEO.W-w*.7),y=Math.min(Math.max(v[1],-h*.3),GEO.H-h*.7);MV=[x,y,w,h];
+ const svg=$('camap');svg.setAttribute('viewBox',MV.map(n=>n.toFixed(2)).join(' '));clearTimeout(RT);if(now)drawMap();else RT=setTimeout(drawMap,140)}
+function zoomAt(k,fx,fy,now){const nw=MV[2]*k,nh=MV[3]*k;setView([MV[0]+(MV[2]-nw)*fx,MV[1]+(MV[3]-nh)*fy,nw,nh],now!==false)}
+(function(){const svg=$('camap'),P=new Map();let start=null;
+ const frac=(cx,cy)=>{const r=svg.getBoundingClientRect();if(!r.width||!r.height)return[.5,.5,r];return[Math.min(Math.max((cx-r.left)/r.width,0),1),Math.min(Math.max((cy-r.top)/r.height,0),1),r]};
+ svg.addEventListener('wheel',e=>{e.preventDefault();const[fx,fy]=frac(e.clientX,e.clientY);zoomAt(Math.pow(1.0018,e.deltaY),fx,fy,false)},{passive:false});
+ svg.addEventListener('dblclick',e=>{e.preventDefault();const[fx,fy]=frac(e.clientX,e.clientY);zoomAt(.5,fx,fy)});
+ svg.addEventListener('pointerdown',e=>{P.set(e.pointerId,{x:e.clientX,y:e.clientY});start={V:[...MV],pts:new Map([...P].map(([k,v])=>[k,{...v}])),moved:0};DRAGGED=false});
+ window.addEventListener('pointermove',e=>{if(!P.has(e.pointerId)||!start)return;P.set(e.pointerId,{x:e.clientX,y:e.clientY});const r=svg.getBoundingClientRect();if(!r.width)return;
+  const ids=[...P.keys()];
+  if(ids.length===1){const s=start.pts.get(ids[0]);if(!s)return;const dx=e.clientX-s.x,dy=e.clientY-s.y;start.moved=Math.max(start.moved,Math.hypot(dx,dy));
+   if(start.moved<6)return;if(start.V[2]>=GEO.W*.97&&e.pointerType==='touch')return;DRAGGED=true;setView([start.V[0]-dx*start.V[2]/r.width,start.V[1]-dy*start.V[3]/r.height,start.V[2],start.V[3]])}
+  else if(ids.length>=2){const[a,b]=ids.slice(0,2).map(i=>P.get(i)),[sa,sb]=ids.slice(0,2).map(i=>start.pts.get(i));if(!sa||!sb)return;
+   const d0=Math.hypot(sa.x-sb.x,sa.y-sb.y),d1=Math.hypot(a.x-b.x,a.y-b.y);if(!d0||!d1)return;DRAGGED=true;const k=d0/d1;
+   const mx0=((sa.x+sb.x)/2-r.left)/r.width,my0=((sa.y+sb.y)/2-r.top)/r.height,mx1=((a.x+b.x)/2-r.left)/r.width,my1=((a.y+b.y)/2-r.top)/r.height;
+   const nw=start.V[2]*k,nh=start.V[3]*k;setView([start.V[0]+start.V[2]*mx0-nw*mx1,start.V[1]+start.V[3]*my0-nh*my1,nw,nh])}});
+ const up=e=>{if(!P.has(e.pointerId))return;P.delete(e.pointerId);start=P.size?{V:[...MV],pts:new Map([...P].map(([k,v])=>[k,{...v}])),moved:99}:null};
+ window.addEventListener('pointerup',up);window.addEventListener('pointercancel',up);
+})();
 $('p-map').addEventListener('keydown',e=>{const c=e.target.closest&&e.target.closest('circle.pt');if(c&&(e.key==='Enter'||e.key===' ')){e.preventDefault();pick(+c.dataset.i)}});
 
 /* ===== Combined research update (Nov 2026): money, cristiana, women, mariachi, history, calendar, directory, growth, grassroots ===== */
