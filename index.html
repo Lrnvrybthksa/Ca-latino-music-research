@@ -173,6 +173,9 @@ pre,.scroll{overflow-x:auto}html{scroll-padding-top:72px}
 #menu .tab[aria-selected=true]{background:var(--rosa);color:#fff}
 nav.bar{top:52px}
 [id^="p-"]{scroll-margin-top:60px}
+.clist{display:flex;flex-direction:column;gap:4px;margin-top:6px;max-height:340px;overflow-y:auto}
+.clist button{text-align:left;font:14px Inter,sans-serif;color:var(--ink);background:var(--track);border:0;border-radius:8px;padding:10px 12px;min-height:44px;cursor:pointer}
+.clist button:hover{outline:2px solid var(--rosa)}
 </style>
 <script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
 </head>
@@ -1541,7 +1544,7 @@ function legend(){
  $('mleg').innerHTML=h;
  const g=$('gfilter');if(g){g.hidden=!(layer==='genres'||layer==='tours');if(layer==='genres')g.innerHTML=[['all','All genres'],...Object.entries(GCAT).map(([k,[n]])=>[k,n])].map(([k,n])=>`<button class="mbtn" data-gf="${k}" aria-pressed="${k===gf}">${n}</button>`).join('');if(layer==='tours')g.innerHTML=[...TOURS.map((t,i)=>[String(i),t[0].split(' · ')[0]]),['all','All tours']].map(([k,n])=>`<button class="mbtn" data-ts="${k}" aria-pressed="${k===ts}">${esc(n)}</button>`).join('')}
 }
-const LAYERDESC={artists:'Artist hometowns and home bases. Tap a dot to see who\'s from there.',latino:'Hispanic or Latino share of each county\'s population (Census 2023 estimates where available). Tap a county.',venues:'Big venues and their headline Latin shows, 2024–2027.',labels:'Labels, studios, promoters and media companies.',radio:'Nielsen radio markets sized by Hispanic audience, with the top Spanish station.',regions:'The regions this site covers. Tap one to open its tab.',events:'Festivals, fairs and annual events: green = held, red = canceled or postponed, blue = yearly or upcoming, gray = unconfirmed.',tours:'Routes of four big tours through California. Pick a tour, then tap a stop for the date.',genres:'Artists colored by genre. Use the filter to show one genre at a time.',policy:'Where 2025–26 immigration enforcement and visa problems hit music and community events.',edu:'Mariachi programs, music training and cultural centers.',media:'Spanish-language radio and TV stations by market.',growth:'Latino population growth, 2010→2020 (Census), for counties where it was pulled. Tap a county.',christian:'Spanish Christian music: Radio Nueva Vida transmitters and the Miel San Marcos 2026 California tour.',history:'Where California Latino music history happened, 1940s to today.',grass:'Small and mid-size Latin venues: ballrooms, halls, clubs, ranchos, jaripeo arenas and fairgrounds, with 2026 bookings. Zoom in for names.'};
+const LAYERDESC={artists:'Artist hometowns and home bases. Tap a dot to see who\'s from there.',latino:'Hispanic or Latino share of each county\'s population (Census 2023 estimates where available). Tap a county.',venues:'Big venues and their headline Latin shows, 2024–2027.',labels:'Labels, studios, promoters and media companies.',radio:'Nielsen radio markets sized by Hispanic audience, with the top Spanish station.',regions:'The regions this site covers. Tap one to open its tab.',events:'Festivals, fairs and annual events: green = held, red = canceled or postponed, blue = yearly or upcoming, gray = unconfirmed.',tours:'Routes of four big tours through California. Pick a tour, then tap a stop for the date.',genres:'Artists colored by genre. Use the filter to show one genre at a time.',policy:'Where 2025–26 immigration enforcement and visa problems hit music and community events.',edu:'Mariachi programs, music training and cultural centers.',media:'Spanish-language radio and TV stations by market.',growth:'Latino population growth, 2010→2020 (Census), for counties where it was pulled. Tap a county.',christian:'Spanish Christian music: Radio Nueva Vida transmitters and the Miel San Marcos 2026 California tour.',history:'Where California Latino music history happened, 1940s to today.',grass:'Small and mid-size Latin venues: ballrooms, halls, clubs, ranchos, jaripeo arenas and fairgrounds, with 2026 bookings. Tap a county to list every venue in it, or zoom in for names.'};
 function info(html){$('mapinfo').innerHTML=html}
 function pick(i){
  sel=i;if(pickX(i))return;
@@ -1561,9 +1564,19 @@ function pickX(i){
  if(layer==='genres'){const p=LASTP[i];if(!p)return true;const[x,city]=p.d;info(`<h4>${esc(x[0])}</h4><p style="margin:0">${esc(city)} · ${esc(x[1])}</p><p style="margin:6px 0 0"><span class="tag q">${GCAT[AG[x[0]]||'s'][0]}</span></p><p style="margin:8px 0 0"><a href="${ytm(x[0].replace(/ \(.*\)/,''))}" target="_blank" rel="noopener">Open on YouTube Music</a></p>`);return true}
  if(layer==='tours'){const p=LASTP[i];if(!p)return true;const[ti,si]=p.d,t=TOURS[ti];info(`<h4>${esc(t[0])}</h4><ol style="margin:6px 0 0;padding-left:20px;font-size:14px">${t[2].map((st,k)=>`<li${k===si?' style="font-weight:700"':''}>${esc(st[0])} · ${esc(st[3])}</li>`).join('')}</ol>`);return true}
  return false}
+const CPOLY=GEO.c.map(([id,n,d])=>[n,d.split('M').filter(Boolean).map(sp=>sp.replace(/Z/g,'').split('L').map(q=>q.split(',').map(Number)))]);
+function inPoly(x,y,P){let c=false;for(let i=0,j=P.length-1;i<P.length;j=i++){const[xi,yi]=P[i],[xj,yj]=P[j];if((yi>y)!==(yj>y)&&x<(xj-xi)*(y-yi)/(yj-yi)+xi)c=!c}return c}
+const CCACHE={};function countyOf(lat,lon){const key=lat+','+lon;if(key in CCACHE)return CCACHE[key];const[x,y]=proj(lat,lon);let r=null;for(const[n,ps] of CPOLY)if(ps.some(P=>inPoly(x,y,P))){r=n;break}
+ if(!r){let best=1e9;for(const[n,ps] of CPOLY)for(const P of ps)for(const[px,py] of P){const d=(px-x)**2+(py-y)**2;if(d<best){best=d;r=n}}}return CCACHE[key]=r}
+const LNAME={grass:'venues',artists:'artist hometowns',genres:'artists',venues:'venues',events:'events',labels:'labels & companies',radio:'radio markets',media:'media markets',edu:'programs',policy:'events',christian:'stations & stops',history:'historic spots',tours:'tour stops'};
+function countyItems(n){if(!LNAME[layer])return '';const P=pts().filter(p=>countyOf(p.lat,p.lon)===n);
+ if(!P.length)return `<p style="margin:10px 0 0;color:var(--muted)">No ${LNAME[layer]} in this county on this layer yet.</p>`;
+ const lab=p=>layer==='grass'?`<b>${esc(GRS[p.i][0])}</b> · ${esc(GRS[p.i][1])} · ${esc(GRS[p.i][4])}`:esc(p.title);
+ return `<h4 style="margin-top:14px">${P.length} ${LNAME[layer]} here</h4><div class="clist">${P.map(p=>`<button data-pi="${p.i}">${lab(p)}</button>`).join('')}</div><p class="note" style="font-size:12px;color:var(--muted);margin:6px 0 0">Tap one for details.</p>`}
 function pickCounty(n){
  const r=regOf[n],v=pct[n];
  info(`<h4>${esc(n)} County</h4><p style="margin:0">${v!=null?'<b>'+v+'%</b> Hispanic or Latino':'No Latino share on this site yet'}</p>${grow[n]!=null?`<p style="margin:6px 0 0">Latino growth 2010→2020: <b>${n==='Humboldt'||n==='Sierra'||n==='Lake'?'about +40%':'+'+grow[n]+'%'}</b>${growN[n]?' ('+growN[n].toLocaleString()+' people)':''}</p>`:''}${r?`<p style="margin:8px 0 0">Region: ${REGINFO[r][0]}</p><button class="mbtn" style="margin-top:10px" data-go="${r}">Open ${REGINFO[r][0]} tab</button>`:''}`);
+ $('mapinfo').insertAdjacentHTML('beforeend',countyItems(n));
 }
 function list(){
  let items=[];
@@ -1599,6 +1612,7 @@ $('mapdesc').textContent=LAYERDESC[layer];
 drawMap();
 $('p-map').addEventListener('click',e=>{
  if(DRAGGED&&e.target.closest('#camap')){DRAGGED=false;return}
+ const pib=e.target.closest('[data-pi]');if(pib){pick(+pib.dataset.pi);$('mapinfo').scrollIntoView({block:'nearest',behavior:'smooth'});return}
  const zbt=e.target.closest('[data-zb]');if(zbt){const a=zbt.dataset.zb;if(a==='reset'){MV=[...Z.state];zoom='state';$('p-map').querySelectorAll('[data-zoom]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.zoom==='state'));drawMap()}else zoomAt(a==='in'?.6:1/.6,.5,.5);return}
  const lb=e.target.closest('[data-layer]');if(lb){layer=lb.dataset.layer;$('p-map').querySelectorAll('[data-layer]').forEach(b=>b.setAttribute('aria-pressed',b===lb));$('mapdesc').textContent=LAYERDESC[layer];info('<h4>Tap a dot or county</h4><p style="margin:0">Details show up here.</p>');drawMap();return}
  const zb=e.target.closest('[data-zoom]');if(zb){zoom=zb.dataset.zoom;MV=[...Z[zoom]];$('p-map').querySelectorAll('[data-zoom]').forEach(b=>b.setAttribute('aria-pressed',b===zb));drawMap();return}
